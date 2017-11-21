@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System.Collections.Generic;
 
 namespace ConferenceOrganizer.Data
@@ -49,16 +47,5 @@ namespace ConferenceOrganizer.Data
         {
             collection.DeleteOne(X=> X.id == id);
         }
-    }
-
-    public class Proposal
-    {
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string id { get; set; }
-        public string speakerName { get; set; }
-        public string bio { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public string email { get; set; }
     }
 }

@@ -1,15 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceOrganizer.Data;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("Proposals")]
+    [Route("proposals")]
     public class ProposalsController : Controller
     {
         IConferenceOrganizerDatabase conferenceOrganizerDatabase;

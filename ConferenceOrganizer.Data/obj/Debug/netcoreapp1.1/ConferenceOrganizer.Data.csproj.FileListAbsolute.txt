@@ -1,0 +1,8 @@
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Data.deps.json
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Data.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Data.csprojResolveAssemblyReference.cache
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Data.csproj.CoreCompileInputs.cache
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Data.AssemblyInfo.cs
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Data.pdb
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Data.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Data\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Data.pdb

@@ -1,0 +1,15 @@
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.deps.json
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.runtimeconfig.json
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.runtimeconfig.dev.json
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.csprojResolveAssemblyReference.cache
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.csproj.CoreCompileInputs.cache
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.AssemblyInfo.cs
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.pdb
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\obj\Debug\netcoreapp1.1\ConferenceOrganizer.Tests.pdb
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\NUnit3.TestAdapter.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\nunit.engine.netstandard.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\Mono.Cecil.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Data.dll
+C:\Users\nscarlyon\Documents\Visual Studio 2017\Projects\ConferenceOrganizerAPi\ConferenceOrganizer.Tests\bin\Debug\netcoreapp1.1\ConferenceOrganizer.Data.pdb

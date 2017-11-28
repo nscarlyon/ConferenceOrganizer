@@ -5,6 +5,7 @@ namespace ConferenceOrganizer.Data
 {
     public interface IConferenceOrganizerDatabase
     {
+        string GetCFPStatus();
         IEnumerable<Proposal> GetProposals();
         Proposal FindProposal(string id);
         void PostProposal(Proposal proposal);
@@ -15,11 +16,18 @@ namespace ConferenceOrganizer.Data
     public class ConferenceOrganizerDatabase : IConferenceOrganizerDatabase
     {
         IMongoCollection<Proposal> collection;
+        IMongoDatabase database;
 
         public ConferenceOrganizerDatabase()
         {
-            IMongoClient client = new MongoClient("mongodb://127.0.0.1:27017");
-            collection = client.GetDatabase("conferenceOrganizer").GetCollection<Proposal>("proposals");
+            database = new MongoClient("mongodb://127.0.0.1:27017").GetDatabase("conferenceOrganizer");
+            collection = database.GetCollection<Proposal>("proposals");
+        }
+
+        public string GetCFPStatus()
+        {
+            var cfpCollection = database.GetCollection<CFP>("cfp");
+            return cfpCollection.Find(x => true).ToListAsync().Result[0].status;
         }
 
         public IEnumerable<Proposal> GetProposals()

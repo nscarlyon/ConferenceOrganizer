@@ -1,12 +1,15 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConferenceOrganizer.Data
 {
     public interface IConferenceOrganizerDatabase
     {
         CFP GetCFPStatus();
+        IEnumerable<string> GetSpeakers();
+        IEnumerable<Proposal> GetProposalsBySpeaker(string name);
         void PutCFP(string id, CFP cfp);
         IEnumerable<Proposal> GetProposals();
         Proposal FindProposal(string id);
@@ -24,6 +27,21 @@ namespace ConferenceOrganizer.Data
         {
             database = new MongoClient("mongodb://127.0.0.1:27017").GetDatabase("conferenceOrganizer");
             collection = database.GetCollection<Proposal>("proposals");
+        }
+
+        public IEnumerable<string> GetSpeakers()
+        {
+            var result = collection.AsQueryable<Proposal>()
+                                   .Select(p => p.speakerName)
+                                   .Distinct();
+            return result;
+        }
+
+        public IEnumerable<Proposal> GetProposalsBySpeaker(string name)
+        {
+            var filterName = name.Replace("-", " ");
+            var filter = Builders<Proposal>.Filter.Eq("speakerName", filterName);
+            return collection.Find(filter).ToListAsync().Result;
         }
 
         public void PutCFP(string id, CFP cfp)

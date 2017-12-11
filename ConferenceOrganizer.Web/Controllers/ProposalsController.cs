@@ -28,9 +28,10 @@ namespace ConferenceOrganizer.Web.Controllers
         }
         
         [HttpPost]
-        public void Post([FromBody]Proposal proposal)
+        public PostResponseMessage Post([FromBody]Proposal proposal)
         {
             conferenceOrganizerDatabase.PostProposal(proposal);
+            return new PostResponseMessage("Proposal successfully submitted");
         }
         
         [HttpPut("{id}")]

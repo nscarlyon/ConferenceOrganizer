@@ -21,15 +21,16 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        public CFP Get()
         {
+            Request.Headers.Add("Access-Control-Allow-Origin", "*");
             return conferenceOrganizerDatabase.GetCFPStatus();
         }    
         
-        // PUT: api/CFP/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(string id, [FromBody]CFP value)
         {
+            conferenceOrganizerDatabase.PutCFP(id, value);
         }
     }
 }

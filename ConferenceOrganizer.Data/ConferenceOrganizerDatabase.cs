@@ -1,11 +1,13 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Collections.Generic;
 
 namespace ConferenceOrganizer.Data
 {
     public interface IConferenceOrganizerDatabase
     {
-        string GetCFPStatus();
+        CFP GetCFPStatus();
+        void PutCFP(string id, CFP cfp);
         IEnumerable<Proposal> GetProposals();
         Proposal FindProposal(string id);
         void PostProposal(Proposal proposal);
@@ -24,10 +26,17 @@ namespace ConferenceOrganizer.Data
             collection = database.GetCollection<Proposal>("proposals");
         }
 
-        public string GetCFPStatus()
+        public void PutCFP(string id, CFP cfp)
         {
             var cfpCollection = database.GetCollection<CFP>("cfp");
-            return cfpCollection.Find(x => true).ToListAsync().Result[0].status;
+            var filter = Builders<CFP>.Filter.Eq("id", id);
+            cfpCollection.FindOneAndReplace(filter, cfp);
+        }
+
+        public CFP GetCFPStatus()
+        {
+            var cfpCollection = database.GetCollection<CFP>("cfp");
+            return cfpCollection.Find(x => true).ToListAsync().Result[0];
         }
 
         public IEnumerable<Proposal> GetProposals()

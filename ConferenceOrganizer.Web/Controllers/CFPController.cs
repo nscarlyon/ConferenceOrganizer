@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceOrganizer.Data;
+using Microsoft.AspNetCore.Cors;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
     [Route("cfp")]
+    [EnableCors("AllowSpecificOrigin")]
     public class CFPController : Controller
     {
         IConferenceOrganizerDatabase conferenceOrganizerDatabase;

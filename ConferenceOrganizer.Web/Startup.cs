@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ConferenceOrganizer.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace ConferenceOrganizer.Web
 {
@@ -29,7 +31,16 @@ namespace ConferenceOrganizer.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
+            });
             services.AddMvc();
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
+            });
             services.AddTransient<IConferenceOrganizerDatabase, ConferenceOrganizerDatabase>();
         }
 
@@ -38,7 +49,7 @@ namespace ConferenceOrganizer.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            app.UseCors("AllowSpecificOrigin");
             app.UseMvc();
         }
     }

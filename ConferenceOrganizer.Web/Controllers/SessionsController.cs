@@ -21,6 +21,12 @@ namespace ConferenceOrganizer.Web.Controllers
             return conferenceOrganizerDatabase.GetSessions();
         }
 
+        [HttpGet("{id}")]
+        public Session Get(string id)
+        {
+            return conferenceOrganizerDatabase.GetSession(id);
+        }
+
         [HttpPost]
         public PostResponseMessage Post([FromBody]Session session)
         {

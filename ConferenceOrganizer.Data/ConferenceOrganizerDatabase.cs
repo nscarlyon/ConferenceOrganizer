@@ -80,6 +80,12 @@ namespace ConferenceOrganizer.Data
             return sessionsCollection.Find(x => true).ToListAsync().Result;
         }
 
+        public Session GetSession(string id)
+        {
+            var sessionsCollection = database.GetCollection<Session>("sessions");
+            return sessionsCollection.Find(x => x.id == id).First();
+        }
+
         public void PostSession(Session session)
         {
             var sessionsCollection = database.GetCollection<Session>("sessions");

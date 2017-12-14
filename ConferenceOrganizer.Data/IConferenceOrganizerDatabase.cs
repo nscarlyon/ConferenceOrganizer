@@ -8,6 +8,7 @@ namespace ConferenceOrganizer.Data
         void PutCFP(string id, CFP cfp);
 
         IEnumerable<string> GetSpeakers();
+        Session GetSession(string id);
         IEnumerable<Session> GetSessions();
         void PostSession(Session session);
         void DeleteSession(string id);

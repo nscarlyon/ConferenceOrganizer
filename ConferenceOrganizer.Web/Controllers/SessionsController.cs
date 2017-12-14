@@ -27,5 +27,11 @@ namespace ConferenceOrganizer.Web.Controllers
             conferenceOrganizerDatabase.PostSession(session);
             return new PostResponseMessage("Session successfully added");
         }
+
+        [HttpDelete("{id}")]
+        public void Delete(string id)
+        {
+            conferenceOrganizerDatabase.DeleteSession(id);
+        }
     }
 }

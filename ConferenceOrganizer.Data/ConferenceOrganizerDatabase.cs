@@ -85,5 +85,11 @@ namespace ConferenceOrganizer.Data
             var sessionsCollection = database.GetCollection<Session>("sessions");
             sessionsCollection.InsertOne(session);
         }
+
+        public void DeleteSession(string id)
+        {
+            var sessionsCollection = database.GetCollection<Session>("sessions");
+            sessionsCollection.DeleteOne(X => X.id == id);
+        }
     }
 }

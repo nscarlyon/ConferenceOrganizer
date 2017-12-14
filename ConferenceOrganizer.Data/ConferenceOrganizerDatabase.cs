@@ -76,8 +76,14 @@ namespace ConferenceOrganizer.Data
 
         public IEnumerable<Session> GetSessions()
         {
-                var sessionsCollection = database.GetCollection<Session>("sessions");
-                return sessionsCollection.Find(x => true).ToListAsync().Result;
+            var sessionsCollection = database.GetCollection<Session>("sessions");
+            return sessionsCollection.Find(x => true).ToListAsync().Result;
+        }
+
+        public void PostSession(Session session)
+        {
+            var sessionsCollection = database.GetCollection<Session>("sessions");
+            sessionsCollection.InsertOne(session);
         }
     }
 }

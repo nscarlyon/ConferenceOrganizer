@@ -20,5 +20,12 @@ namespace ConferenceOrganizer.Web.Controllers
         {
             return conferenceOrganizerDatabase.GetSessions();
         }
+
+        [HttpPost]
+        public PostResponseMessage Post([FromBody]Session session)
+        {
+            conferenceOrganizerDatabase.PostSession(session);
+            return new PostResponseMessage("Session successfully added");
+        }
     }
 }

@@ -5,15 +5,18 @@ namespace ConferenceOrganizer.Data
     public interface IConferenceOrganizerDatabase
     {
         CFP GetCFPStatus();
-        IEnumerable<string> GetSpeakers();
-        IEnumerable<Proposal> GetProposalsBySpeaker(string name);
         void PutCFP(string id, CFP cfp);
+
+        IEnumerable<string> GetSpeakers();
+        IEnumerable<Session> GetSessions();
+        void PostSession(Session session);
+
         IEnumerable<Proposal> GetProposals();
+        IEnumerable<Proposal> GetProposalsBySpeaker(string name);
         Proposal FindProposal(string id);
         void PostProposal(Proposal proposal);
         void PutProposal(string id, Proposal proposal);
         void DeleteProposal(string id);
         void DeleteProposals();
-        IEnumerable<Session> GetSessions();
     }
 }

@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +15,7 @@ namespace ConferenceOrganizer.Data
         void PostProposal(Proposal proposal);
         void PutProposal(string id, Proposal proposal);
         void DeleteProposal(string id);
+        void DeleteProposals();
     }
 
     public class ConferenceOrganizerDatabase : IConferenceOrganizerDatabase
@@ -81,6 +81,11 @@ namespace ConferenceOrganizer.Data
         public void DeleteProposal(string id)
         {
             collection.DeleteOne(X=> X.id == id);
+        }
+
+        public void DeleteProposals()
+        {
+            collection.DeleteMany(X => true);
         }
     }
 }

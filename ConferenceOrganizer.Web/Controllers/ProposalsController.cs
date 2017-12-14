@@ -45,5 +45,11 @@ namespace ConferenceOrganizer.Web.Controllers
         {
             conferenceOrganizerDatabase.DeleteProposal(id);
         }
+
+        [HttpDelete]
+        public void DeleteProposals()
+        {
+            conferenceOrganizerDatabase.DeleteProposals();
+        }
     }
 }

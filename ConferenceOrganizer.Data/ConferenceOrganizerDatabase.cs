@@ -16,6 +16,7 @@ namespace ConferenceOrganizer.Data
         void PutProposal(string id, Proposal proposal);
         void DeleteProposal(string id);
         void DeleteProposals();
+        IEnumerable<Session> GetSessions();
     }
 
     public class ConferenceOrganizerDatabase : IConferenceOrganizerDatabase
@@ -86,6 +87,12 @@ namespace ConferenceOrganizer.Data
         public void DeleteProposals()
         {
             collection.DeleteMany(X => true);
+        }
+
+        public IEnumerable<Session> GetSessions()
+        {
+                var sessionsCollection = database.GetCollection<Session>("sessions");
+                return sessionsCollection.Find(x => true).ToListAsync().Result;
         }
     }
 }

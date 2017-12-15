@@ -34,12 +34,6 @@ namespace ConferenceOrganizer.Web.Controllers
             return new PostResponseMessage("Proposal successfully submitted");
         }
         
-        [HttpPut("{id}")]
-        public void Put(string id, [FromBody]Proposal value)
-        {
-            conferenceOrganizerDatabase.PutProposal(id, value);
-        }
-        
         [HttpDelete("{id}")]
         public void Delete(string id)
         {

@@ -34,6 +34,12 @@ namespace ConferenceOrganizer.Web.Controllers
             return new PostResponseMessage("Session successfully added");
         }
 
+        [HttpPut("{id}")]
+        public void Put(string id, [FromBody]Session session)
+        {
+            conferenceOrganizerDatabase.PutSession(id, session);
+        }
+
         [HttpDelete("{id}")]
         public void Delete(string id)
         {

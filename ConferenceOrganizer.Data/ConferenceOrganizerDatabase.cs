@@ -92,6 +92,14 @@ namespace ConferenceOrganizer.Data
             sessionsCollection.InsertOne(session);
         }
 
+        public void PutSession(string id, Session session)
+        {
+            var sessionsCollection = database.GetCollection<Session>("sessions");
+            var filter = Builders<Session>.Filter.Eq("id", id);
+            session.id = id;
+            sessionsCollection.FindOneAndReplace(filter, session);
+        }
+
         public void DeleteSession(string id)
         {
             var sessionsCollection = database.GetCollection<Session>("sessions");

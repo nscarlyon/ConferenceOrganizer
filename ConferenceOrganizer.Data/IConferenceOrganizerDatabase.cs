@@ -12,6 +12,7 @@ namespace ConferenceOrganizer.Data
         IEnumerable<Session> GetSessions();
         void PostSession(Session session);
         void DeleteSession(string id);
+        void PutSession(string id, Session session);
 
         IEnumerable<Proposal> GetProposals();
         IEnumerable<Proposal> GetProposalsBySpeaker(string name);

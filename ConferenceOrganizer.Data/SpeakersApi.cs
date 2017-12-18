@@ -4,23 +4,15 @@ using System.Linq;
 
 namespace ConferenceOrganizer.Data
 {
-    public class ConferenceOrganizerDatabase : IConferenceOrganizerDatabase
+    public class SpeakersApi : ISpeakersApi
     {
         IMongoCollection<Proposal> collection;
         IMongoDatabase database;
 
-        public ConferenceOrganizerDatabase()
+        public SpeakersApi()
         {
             database = new MongoClient("mongodb://127.0.0.1:27017").GetDatabase("conferenceOrganizer");
             collection = database.GetCollection<Proposal>("proposals");
-        }
-
-        public IEnumerable<string> GetSpeakers()
-        {
-            var result = collection.AsQueryable<Proposal>()
-                                   .Select(p => p.speakerName)
-                                   .Distinct();
-            return result;
         }
 
         public IEnumerable<Proposal> GetProposalsBySpeaker(string name)
@@ -66,38 +58,6 @@ namespace ConferenceOrganizer.Data
         public void DeleteProposals()
         {
             collection.DeleteMany(X => true);
-        }
-
-        public IEnumerable<Session> GetSessions()
-        {
-            var sessionsCollection = database.GetCollection<Session>("sessions");
-            return sessionsCollection.Find(x => true).ToListAsync().Result;
-        }
-
-        public Session GetSession(string id)
-        {
-            var sessionsCollection = database.GetCollection<Session>("sessions");
-            return sessionsCollection.Find(x => x.id == id).First();
-        }
-
-        public void PostSession(Session session)
-        {
-            var sessionsCollection = database.GetCollection<Session>("sessions");
-            sessionsCollection.InsertOne(session);
-        }
-
-        public void PutSession(string id, Session session)
-        {
-            var sessionsCollection = database.GetCollection<Session>("sessions");
-            var filter = Builders<Session>.Filter.Eq("id", id);
-            session.id = id;
-            sessionsCollection.FindOneAndReplace(filter, session);
-        }
-
-        public void DeleteSession(string id)
-        {
-            var sessionsCollection = database.GetCollection<Session>("sessions");
-            sessionsCollection.DeleteOne(X => X.id == id);
         }
     }
 }

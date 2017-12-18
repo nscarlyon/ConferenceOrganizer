@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ISessionsCollection.cs" />
     <Compile Remove="Models.cs" />
   </ItemGroup>
 

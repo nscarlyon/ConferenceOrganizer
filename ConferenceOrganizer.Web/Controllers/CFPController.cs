@@ -20,17 +20,17 @@ namespace ConferenceOrganizer.Web.Controllers
             this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
         }
 
-        [HttpGet]
-        public CFP Get()
-        {
-            Request.Headers.Add("Access-Control-Allow-Origin", "*");
-            return conferenceOrganizerDatabase.GetCFPStatus();
-        }    
+        //[HttpGet]
+        //public CFP Get()
+        //{
+        //    Request.Headers.Add("Access-Control-Allow-Origin", "*");
+        //    return conferenceOrganizerDatabase.GetCFPStatus();
+        //}    
         
-        [HttpPut("{id}")]
-        public void Put(string id, [FromBody]CFP value)
-        {
-            conferenceOrganizerDatabase.PutCFP(id, value);
-        }
+        //[HttpPut("{id}")]
+        //public void Put(string id, [FromBody]CFP value)
+        //{
+        //    conferenceOrganizerDatabase.PutCFP(id, value);
+        //}
     }
 }

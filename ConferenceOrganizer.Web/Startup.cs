@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,8 +41,7 @@ namespace ConferenceOrganizer.Web
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
             });
-            services.AddTransient<ISpeakersApi, SpeakersApi>();
-            services.AddTransient<IAdminApi, AdminApi>();
+            services.AddTransient<IConferenceOrganizerDatabase, ConferenceOrganizerDatabase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

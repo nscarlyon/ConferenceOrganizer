@@ -7,5 +7,6 @@ namespace ConferenceOrganizer.Tests
     [TestFixture]
     public class MockTests
     {
+        public static Mock<IConferenceOrganizerDatabase> conferenceOrganizerDatabase = new Mock<IConferenceOrganizerDatabase>();
     }
 }

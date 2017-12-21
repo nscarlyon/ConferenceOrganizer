@@ -5,46 +5,46 @@ using ConferenceOrganizer.Data;
 namespace ConferenceOrganizer.Web.Controllers
 {
 
-    [Produces("application/json")]
-    [Route("speakers/proposals")]
+    [Route("[controller]")]
     public class SpeakersController : Controller
     {
-        ISpeakersApi speakersApi;
+        IConferenceOrganizerDatabase conferenceOrganizerDatabase;
 
-        public SpeakersController(ISpeakersApi speakersApi)
+        public SpeakersController(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
         {
-            this.speakersApi = speakersApi;
+            this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
         }
 
+        // GET: api/values
         [HttpGet]
-        public IEnumerable<Proposal> Get()
+        public IEnumerable<string> Get()
         {
-            return speakersApi.GetProposals();
+            return conferenceOrganizerDatabase.GetSpeakers();
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public Proposal Get(string id)
+        // GET api/values/5
+        [HttpGet("{name}")]
+        public IEnumerable<Proposal> Get(string name)
         {
-            return speakersApi.FindProposal(id);
+            return conferenceOrganizerDatabase.GetProposalsBySpeaker(name);
         }
 
+        // POST api/values
         [HttpPost]
-        public PostResponseMessage Post([FromBody]Proposal proposal)
+        public void Post([FromBody]string value)
         {
-            speakersApi.PostProposal(proposal);
-            return new PostResponseMessage("Proposal successfully submitted");
         }
 
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public void Delete(int id)
         {
-            speakersApi.DeleteProposal(id);
-        }
-
-        [HttpDelete]
-        public void DeleteProposals()
-        {
-            speakersApi.DeleteProposals();
         }
     }
 }

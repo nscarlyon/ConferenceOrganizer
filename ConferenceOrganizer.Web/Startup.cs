@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using ConferenceOrganizer.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using ConferenceOrganizer.Domain;
 
 namespace ConferenceOrganizer.Web
 {
@@ -42,6 +43,7 @@ namespace ConferenceOrganizer.Web
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
             });
             services.AddTransient<IConferenceOrganizerDatabase, ConferenceOrganizerDatabase>();
+            services.AddTransient<ProposalsDomain, ProposalsDomain>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

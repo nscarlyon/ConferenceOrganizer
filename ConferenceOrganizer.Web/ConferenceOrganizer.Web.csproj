@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConferenceOrganizer.Data\ConferenceOrganizer.Data.csproj" />
+    <ProjectReference Include="..\ConferenceOrganizer.Domain\ConferenceOrganizer.Domain.csproj" />
   </ItemGroup>
 
 </Project>

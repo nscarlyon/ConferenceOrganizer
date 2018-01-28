@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceOrganizer.Data;
+using ConferenceOrganizer.Domain;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
@@ -8,42 +9,42 @@ namespace ConferenceOrganizer.Web.Controllers
     [Route("proposals")]
     public class ProposalsController : Controller
     {
-        IConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        ProposalsDomain proposalsDomain;
 
-        public ProposalsController(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
+        public ProposalsController(ProposalsDomain proposalsDomain)
         {
-            this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
+            this.proposalsDomain = proposalsDomain;
         }
 
         [HttpGet]
         public IEnumerable<Proposal> Get()
         {
-            return conferenceOrganizerDatabase.GetProposals();
+            return proposalsDomain.GetProposals();
         }
 
         [HttpGet("{id}", Name = "Get")]
         public Proposal Get(string id)
         {
-            return conferenceOrganizerDatabase.FindProposal(id);
+            return proposalsDomain.GetProposalById(id);
         }
         
         [HttpPost]
         public PostResponseMessage Post([FromBody]Proposal proposal)
         {
-            conferenceOrganizerDatabase.PostProposal(proposal);
+            proposalsDomain.PostProposal(proposal);
             return new PostResponseMessage("Proposal successfully submitted");
         }
         
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            conferenceOrganizerDatabase.DeleteProposal(id);
+            proposalsDomain.DeleteProposalById(id);
         }
 
         [HttpDelete]
         public void DeleteProposals()
         {
-            conferenceOrganizerDatabase.DeleteProposals();
+            proposalsDomain.DeleteProposals();
         }
     }
 }

@@ -8,9 +8,11 @@ namespace ConferenceOrganizer.Data
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public string speakerName { get; set; }
-        public string presentationTitle { get; set; }
-        public string roomName { get; set; }
-        public string startTime { get; set; }
-        public string endTime { get; set; }
+        public string title { get; set; }
+        public string room { get; set; }
+        public int startHour { get; set; }
+        public int startMin { get; set; }
+        public int endHour { get; set; }
+        public int endMin { get; set; }
     }
 }

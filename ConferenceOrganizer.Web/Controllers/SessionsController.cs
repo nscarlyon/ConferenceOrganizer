@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceOrganizer.Data;
+using ConferenceOrganizer.Domain;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
@@ -8,42 +9,42 @@ namespace ConferenceOrganizer.Web.Controllers
     [Route("sessions")]
     public class SessionsController : Controller
     {
-        IConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        private SessionsDomain sessionsDomain;
 
-        public SessionsController(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
+        public SessionsController(SessionsDomain sessionDomain)
         {
-            this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
+            this.sessionsDomain = sessionDomain;
         }
 
         [HttpGet]
         public IEnumerable<Session> Get()
         {
-            return conferenceOrganizerDatabase.GetSessions();
+            return sessionsDomain.GetSessions();
         }
 
         [HttpGet("{id}")]
         public Session Get(string id)
         {
-            return conferenceOrganizerDatabase.GetSession(id);
+            return sessionsDomain.GetSessionById(id);
         }
 
         [HttpPost]
         public PostResponseMessage Post([FromBody]Session session)
         {
-            conferenceOrganizerDatabase.PostSession(session);
+            sessionsDomain.PostSession(session);
             return new PostResponseMessage("Session successfully added");
         }
 
         [HttpPut("{id}")]
         public void Put(string id, [FromBody]Session session)
         {
-            conferenceOrganizerDatabase.PutSession(id, session);
+            sessionsDomain.PutSession(id, session);
         }
 
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            conferenceOrganizerDatabase.DeleteSession(id);
+            sessionsDomain.DeleteSessionById(id);
         }
     }
 }

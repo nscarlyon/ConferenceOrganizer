@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace ConferenceOrganizer.Data
 {
@@ -35,6 +36,12 @@ namespace ConferenceOrganizer.Data
             var cfpCollection = database.GetCollection<CFP>("cfp");
             var filter = Builders<CFP>.Filter.Eq("id", id);
             cfpCollection.FindOneAndReplace(filter, cfp);
+        }
+
+        public void DeleteSessions()
+        {
+            var sessionsCollection = database.GetCollection<Session>("sessions");
+            sessionsCollection.DeleteMany(X => true);
         }
 
         public CFP GetCFPStatus()

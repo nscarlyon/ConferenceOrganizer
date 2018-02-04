@@ -1,5 +1,6 @@
 ﻿using ConferenceOrganizer.Data;
 using System.Collections.Generic;
+using System;
 
 namespace ConferenceOrganizer.Domain
 {
@@ -35,6 +36,11 @@ namespace ConferenceOrganizer.Domain
         public void DeleteSessionById(string id)
         {
             conferenceOrganizerDatabase.DeleteSession(id);
+        }
+
+        public void DeleteSessions()
+        {
+            conferenceOrganizerDatabase.DeleteSessions();
         }
     }
 }

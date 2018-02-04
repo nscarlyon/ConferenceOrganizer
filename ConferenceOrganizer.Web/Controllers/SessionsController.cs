@@ -46,5 +46,11 @@ namespace ConferenceOrganizer.Web.Controllers
         {
             sessionsDomain.DeleteSessionById(id);
         }
+
+        [HttpDelete]
+        public void DeleteSessions()
+        {
+            sessionsDomain.DeleteSessions();
+        }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ConferenceOrganizer.Data;
 using Microsoft.AspNetCore.Cors;
+using ConferenceOrganizer.Domain;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
@@ -8,24 +9,24 @@ namespace ConferenceOrganizer.Web.Controllers
     [EnableCors("AllowSpecificOrigin")]
     public class CFPController : Controller
     {
-        IConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        CFPDomain cfpDomain;
 
-        public CFPController(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
+        public CFPController(CFPDomain cfpDomain)
         {
-            this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
+            this.cfpDomain = cfpDomain;
         }
 
         [HttpGet]
         public CFP Get()
         {
             Request.Headers.Add("Access-Control-Allow-Origin", "*");
-            return conferenceOrganizerDatabase.GetCFPStatus();
+            return cfpDomain.GetCfp();
         }    
         
         [HttpPut("{id}")]
         public void Put(string id, [FromBody]CFP value)
         {
-            conferenceOrganizerDatabase.PutCFP(id, value);
+            cfpDomain.PutCfp(id, value);
         }
     }
 }

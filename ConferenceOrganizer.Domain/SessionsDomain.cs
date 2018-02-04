@@ -1,6 +1,5 @@
 ﻿using ConferenceOrganizer.Data;
 using System.Collections.Generic;
-using System;
 
 namespace ConferenceOrganizer.Domain
 {

@@ -41,6 +41,7 @@ namespace ConferenceOrganizer.Web
             services.AddTransient<IConferenceOrganizerDatabase, ConferenceOrganizerDatabase>();
             services.AddTransient<ProposalsDomain, ProposalsDomain>();
             services.AddTransient<SessionsDomain, SessionsDomain>();
+            services.AddTransient<ScheduleDomain, ScheduleDomain>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -106,5 +106,23 @@ namespace ConferenceOrganizer.Data
             var sessionsCollection = database.GetCollection<Session>("sessions");
             sessionsCollection.DeleteOne(X => X.id == id);
         }
+
+        public Schedule GetSchedule()
+        {
+            var scheduleCollection = database.GetCollection<Schedule>("schedule");
+            Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();
+            return schedule;
+        }
+
+        public void PostSchedule(Schedule schedule)
+        {
+            var sesssions = GetSessions();
+            foreach(var timeslot in schedule.timeSlots)
+            {
+                timeslot.sessions = sesssions;
+            }
+            var scheduleCollection = database.GetCollection<Schedule>("schedule");
+            scheduleCollection.InsertOne(schedule);
+        }
     }
 }

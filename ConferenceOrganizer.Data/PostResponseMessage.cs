@@ -1,9 +1,9 @@
 ﻿namespace ConferenceOrganizer.Data
 {
-    public class PostResponseMessage
+    public class HttpResponseMessage
     {
         public string Message;
-        public PostResponseMessage(string message)
+        public HttpResponseMessage(string message)
         {
             Message = message;
         }

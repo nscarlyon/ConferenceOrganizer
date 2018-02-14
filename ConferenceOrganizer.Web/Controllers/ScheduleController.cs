@@ -30,15 +30,22 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpPut("rooms/{id}")]
-        public void AddRoom(string id, [FromBody] Rooms rooms)
+        public void SetRooms(string id, [FromBody] Rooms rooms)
         {
-            scheduleDomain.AddRoom(id, rooms);
+            scheduleDomain.SetScheduleRooms(id, rooms);
         }
 
         [HttpPut("timeslots/{id}")]
-        public void AddTimeSlot(string id, [FromBody] TimeSlot timeSlot)
+        public HttpResponseMessage SetTimeSlot(string id, [FromBody] TimeSlot timeSlot)
         {
-            scheduleDomain.AddTimeSlot(id, timeSlot);
+            return scheduleDomain.SetTimeSlot(id, timeSlot);
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("timeslots")]
+        public HttpResponseMessage DeleteTimeSlot([FromBody] string timeSlot)
+        {
+            return scheduleDomain.DeleteTimeSlot(timeSlot);
         }
 
         // DELETE: api/ApiWithActions/5

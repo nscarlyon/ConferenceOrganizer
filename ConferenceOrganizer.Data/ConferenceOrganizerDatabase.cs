@@ -1,7 +1,6 @@
 ﻿using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace ConferenceOrganizer.Data
 {
@@ -127,7 +126,7 @@ namespace ConferenceOrganizer.Data
             scheduleCollection.InsertOne(schedule);
         }
 
-        public void AddRoomsToSchedule(string id, Rooms rooms)
+        public void SetScheduleRooms(string id, Rooms rooms)
         {
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
             Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();

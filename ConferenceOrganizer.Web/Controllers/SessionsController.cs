@@ -29,10 +29,10 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpPost]
-        public PostResponseMessage Post([FromBody]Session session)
+        public HttpResponseMessage Post([FromBody]Session session)
         {
             sessionsDomain.PostSession(session);
-            return new PostResponseMessage("Session successfully added");
+            return new HttpResponseMessage("Session successfully added");
         }
 
         [HttpPut("{id}")]

@@ -1,15 +1,17 @@
 ﻿using ConferenceOrganizer.Data;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConferenceOrganizer.Domain
 {
     public class ScheduleDomain
     {
-        private ConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        public IConferenceOrganizerDatabase conferenceOrganizerDatabase;
 
-        public ScheduleDomain()
+        public ScheduleDomain(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
         {
-            conferenceOrganizerDatabase = new ConferenceOrganizerDatabase();
+            this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
         }
 
         public Schedule GetSchedule()

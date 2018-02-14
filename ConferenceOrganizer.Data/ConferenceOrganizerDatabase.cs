@@ -126,5 +126,19 @@ namespace ConferenceOrganizer.Data
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
             scheduleCollection.InsertOne(schedule);
         }
+
+        public void AddRoomsToSchedule(string id, Rooms rooms)
+        {
+            var scheduleCollection = database.GetCollection<Schedule>("schedule");
+            Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();
+            var filter = Builders<Schedule>.Filter.Eq("id", id);
+            var newSchedule = new Schedule
+            {
+                rooms = rooms.rooms,
+                timeSlots = new TimeSlot[] { },
+                id = id
+            };
+            scheduleCollection.FindOneAndReplace(filter, newSchedule);
+        }
     }
 }

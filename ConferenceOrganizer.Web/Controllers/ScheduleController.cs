@@ -28,11 +28,11 @@ namespace ConferenceOrganizer.Web.Controllers
         {
             scheduleDomain.PostSchedule(schedule);
         }
-        
-        // PUT: api/Schedule/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+
+        [HttpPut("rooms/{id}")]
+        public void AddRoom(string id, [FromBody] Rooms rooms)
         {
+            scheduleDomain.AddRoom(id, rooms);
         }
         
         // DELETE: api/ApiWithActions/5

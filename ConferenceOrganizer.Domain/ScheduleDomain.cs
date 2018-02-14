@@ -18,9 +18,9 @@ namespace ConferenceOrganizer.Domain
         {
             var sessions = conferenceOrganizerDatabase.GetSessions();
             var schedule = conferenceOrganizerDatabase.GetSchedule();
-            var orderedSchedule = new OrderedSchedule(schedule, sessions);
+            var orderedSchedule = new OrderedSchedule(schedule, sessions).GetOrderedSchedule();
 
-            return conferenceOrganizerDatabase.GetSchedule();
+            return orderedSchedule;
         }
 
         public void PostSchedule(Schedule schedule)

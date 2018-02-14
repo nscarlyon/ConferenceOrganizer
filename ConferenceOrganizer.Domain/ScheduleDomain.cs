@@ -33,6 +33,27 @@ namespace ConferenceOrganizer.Domain
             conferenceOrganizerDatabase.DeleteSchedule();
         }
 
+        public void AddTimeSlot(string id, TimeSlot timeSlot)
+        {
+            var schedule = GetSchedule();
+            foreach(var room in schedule.rooms)
+            {
+                var splitTimeSlot = timeSlot.timeSlot.Split('-');
+                int.TryParse(splitTimeSlot[0].Split(':')[0], out int startHour);
+                int.TryParse(splitTimeSlot[0].Split(':')[1], out int startMin);
+                int.TryParse(splitTimeSlot[1].Split(':')[0], out int endHour);
+                int.TryParse(splitTimeSlot[1].Split(':')[1], out int endMin);
+                var session = new Session
+                {
+                    room = room,
+                    startHour = startHour,
+                    startMin = startMin,
+                    endHour = endHour,
+                    endMin = endMin
+                };
+                conferenceOrganizerDatabase.PostSession(session);
+            }
+        }
 
         public void AddRoom(string id, Rooms rooms)
         {

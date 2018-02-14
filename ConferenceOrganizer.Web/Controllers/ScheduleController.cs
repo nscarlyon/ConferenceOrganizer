@@ -34,7 +34,13 @@ namespace ConferenceOrganizer.Web.Controllers
         {
             scheduleDomain.AddRoom(id, rooms);
         }
-        
+
+        [HttpPut("timeslots/{id}")]
+        public void AddTimeSlot(string id, [FromBody] TimeSlot timeSlot)
+        {
+            scheduleDomain.AddTimeSlot(id, timeSlot);
+        }
+
         // DELETE: api/ApiWithActions/5
         [HttpDelete]
         public void Delete()

@@ -123,11 +123,6 @@ namespace ConferenceOrganizer.Data
 
         public void PostSchedule(Schedule schedule)
         {
-            var sesssions = GetSessions();
-            foreach(var timeslot in schedule.timeSlots)
-            {
-                timeslot.sessions = sesssions;
-            }
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
             scheduleCollection.InsertOne(schedule);
         }

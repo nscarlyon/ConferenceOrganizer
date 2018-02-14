@@ -20,6 +20,7 @@ namespace ConferenceOrganizer.Data
         void PostProposal(Proposal proposal);
         void DeleteProposal(string id);
         void DeleteProposals();
+        void PostSchedule(Schedule schedule);
         void DeleteSchedule();
     }
 }

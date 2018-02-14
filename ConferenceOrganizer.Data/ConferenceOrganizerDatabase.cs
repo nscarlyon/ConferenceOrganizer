@@ -114,6 +114,13 @@ namespace ConferenceOrganizer.Data
             return schedule;
         }
 
+        public void DeleteSchedule()
+        {
+            var scheduleCollection = database.GetCollection<Schedule>("schedule");
+            Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();
+            scheduleCollection.DeleteOne(s => s.id == schedule.id);
+        }
+
         public void PostSchedule(Schedule schedule)
         {
             var sesssions = GetSessions();

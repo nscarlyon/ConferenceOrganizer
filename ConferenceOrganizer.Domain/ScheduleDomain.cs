@@ -25,5 +25,11 @@ namespace ConferenceOrganizer.Domain
         {
             conferenceOrganizerDatabase.PostSchedule(schedule);
         }
+
+        public void DeleteSchedule()
+        {
+            conferenceOrganizerDatabase.DeleteSchedule();
+        }
+
     }
 }

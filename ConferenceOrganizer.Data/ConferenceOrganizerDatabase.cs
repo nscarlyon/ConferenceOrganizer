@@ -126,18 +126,15 @@ namespace ConferenceOrganizer.Data
             scheduleCollection.InsertOne(schedule);
         }
 
-        public void SetScheduleRooms(string id, Rooms rooms)
+        public void PutSchedule(string id, Schedule newSchedule)
         {
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
             Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();
             var filter = Builders<Schedule>.Filter.Eq("id", id);
-            var newSchedule = new Schedule
-            {
-                rooms = rooms.rooms,
-                timeSlots = new TimeSlot[] { },
-                id = id
-            };
-            scheduleCollection.FindOneAndReplace(filter, newSchedule);
+            var update = Builders<Schedule>.Update
+                                            .Set("Rooms", newSchedule.Rooms)
+                                            .Set("TimeSlots", newSchedule.TimeSlots);
+            scheduleCollection.UpdateOne(filter, update);
         }
     }
 }

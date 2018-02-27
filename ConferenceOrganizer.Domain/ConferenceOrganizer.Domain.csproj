@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="OrderedSchedule.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ConferenceOrganizer.Data\ConferenceOrganizer.Data.csproj" />
   </ItemGroup>
 

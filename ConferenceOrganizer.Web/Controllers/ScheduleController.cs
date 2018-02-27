@@ -29,23 +29,10 @@ namespace ConferenceOrganizer.Web.Controllers
             scheduleDomain.PostSchedule(schedule);
         }
 
-        [HttpPut("rooms/{id}")]
-        public void SetRooms(string id, [FromBody] Rooms rooms)
+        [HttpPut("{id}")]
+        public void Put(string id, [FromBody] Schedule schedule)
         {
-            scheduleDomain.SetScheduleRooms(id, rooms);
-        }
-
-        [HttpPut("timeslots/{id}")]
-        public HttpResponseMessage SetTimeSlot(string id, [FromBody] TimeSlot timeSlot)
-        {
-            return scheduleDomain.SetTimeSlot(id, timeSlot);
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("timeslots")]
-        public HttpResponseMessage DeleteTimeSlot([FromBody] string timeSlot)
-        {
-            return scheduleDomain.DeleteTimeSlot(timeSlot);
+            scheduleDomain.UpdateSchedule(id, schedule);
         }
 
         // DELETE: api/ApiWithActions/5

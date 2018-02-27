@@ -1,8 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
-using System.Linq;
-using System;
 
 namespace ConferenceOrganizer.Data
 {
@@ -10,18 +8,8 @@ namespace ConferenceOrganizer.Data
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
-        public IEnumerable<string> rooms { get; set; }
-        public IEnumerable<TimeSlot> timeSlots { get; set; }
-    }
-
-    public class TimeSlot
-    {
-        public string timeSlot { get; set; }
-        public IEnumerable<Session> sessions { get; set; }
-
-        public void AddSession(Session session)
-        {
-            sessions.ToList().Add(session);
-        }
+        public IEnumerable<string> Rooms { get; set; }
+        public IEnumerable<string> TimeSlots { get; set; }
+        public IEnumerable<Session> Sessions { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace ConferenceOrganizer.Data
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public IEnumerable<string> Rooms { get; set; }
-        public IEnumerable<string> TimeSlots { get; set; }
+        public IEnumerable<TimeSlot> TimeSlots { get; set; }
         public IEnumerable<Session> Sessions { get; set; }
     }
 }

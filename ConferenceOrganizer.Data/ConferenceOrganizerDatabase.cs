@@ -109,8 +109,9 @@ namespace ConferenceOrganizer.Data
         public Schedule GetSchedule()
         {
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
-            Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();
-            return schedule;
+            IEnumerable<Schedule> schedules = scheduleCollection.Find(x => true).ToListAsync().Result;
+            if(schedules.Any()) return schedules.First();
+            return null;
         }
 
         public void DeleteSchedule()

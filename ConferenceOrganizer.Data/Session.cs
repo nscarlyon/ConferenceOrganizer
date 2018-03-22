@@ -7,12 +7,9 @@ namespace ConferenceOrganizer.Data
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
-        public string speakerName { get; set; }
-        public string title { get; set; }
-        public string room { get; set; }
-        public int startHour { get; set; }
-        public int startMin { get; set; }
-        public int endHour { get; set; }
-        public int endMin { get; set; }
+        public string SpeakerName { get; set; }
+        public string Title { get; set; }
+        public string Room { get; set; }
+        public string StandardTime { get; set; }
     }
 }

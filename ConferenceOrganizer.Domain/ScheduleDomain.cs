@@ -16,8 +16,12 @@ namespace ConferenceOrganizer.Domain
         {
             var sessions = conferenceOrganizerDatabase.GetSessions();
             var schedule = conferenceOrganizerDatabase.GetSchedule();
-            schedule.Sessions = sessions;
-            return schedule;
+            if(schedule != null)
+            {
+                schedule.Sessions = sessions;
+                return schedule;
+            }
+            return null;
         }
 
         public void PostSchedule(Schedule schedule)

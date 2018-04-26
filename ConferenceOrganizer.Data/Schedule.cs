@@ -8,7 +8,6 @@ namespace ConferenceOrganizer.Data
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
-        public bool Published { get; set; }
         public IEnumerable<string> Rooms { get; set; }
         public IEnumerable<TimeSlot> TimeSlots { get; set; }
         public IEnumerable<Session> Sessions { get; set; }

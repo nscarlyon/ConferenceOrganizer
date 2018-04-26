@@ -21,12 +21,9 @@ namespace ConferenceOrganizer.Data
         void DeleteProposal(string id);
         void DeleteProposals();
 
-        Schedule GetRoughSchedule();
-        Schedule GetPublishedSchedule();
+        Schedule GetSchedule();
         void PostSchedule(Schedule schedule);
-        void PutSchedule(Schedule schedule);
+        void PutSchedule(string id, Schedule schedule);
         void DeleteSchedule();
-        void PublishSchedule();
-        void UnpublishSchedule();
     }
 }

@@ -106,27 +106,19 @@ namespace ConferenceOrganizer.Data
             sessionsCollection.DeleteOne(X => X.id == id);
         }
 
-        public Schedule GetRoughSchedule()
+        public Schedule GetSchedule()
         {
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
-            IEnumerable<Schedule> schedules = scheduleCollection.Find(x => x.Published == false).ToListAsync().Result;
+            IEnumerable<Schedule> schedules = scheduleCollection.Find(x => true).ToListAsync().Result;
             if(schedules.Any()) return schedules.First();
-            return null;
-        }
-
-
-        public Schedule GetPublishedSchedule()
-        {
-            var scheduleCollection = database.GetCollection<Schedule>("schedule");
-            IEnumerable<Schedule> schedules = scheduleCollection.Find(x => x.Published == true).ToListAsync().Result;
-            if (schedules.Any()) return schedules.First();
             return null;
         }
 
         public void DeleteSchedule()
         {
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
-            scheduleCollection.DeleteMany(s => true);
+            Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();
+            scheduleCollection.DeleteOne(s => s.id == schedule.id);
         }
 
         public void PostSchedule(Schedule schedule)
@@ -135,47 +127,15 @@ namespace ConferenceOrganizer.Data
             scheduleCollection.InsertOne(schedule);
         }
 
-        public void PutSchedule(Schedule newSchedule)
+        public void PutSchedule(string id, Schedule newSchedule)
         {
             var scheduleCollection = database.GetCollection<Schedule>("schedule");
-            var filter = Builders<Schedule>.Filter.Eq("Published", false);
+            Schedule schedule = scheduleCollection.Find(x => true).ToListAsync().Result.First();
+            var filter = Builders<Schedule>.Filter.Eq("id", id);
             var update = Builders<Schedule>.Update
                                             .Set("Rooms", newSchedule.Rooms)
                                             .Set("TimeSlots", newSchedule.TimeSlots);
             scheduleCollection.UpdateOne(filter, update);
-        }
-
-        public void PublishSchedule()
-        {
-            var scheduleCollection = database.GetCollection<Schedule>("schedule");
-            Schedule unpublishedSchedule = scheduleCollection.Find(x => x.Published == false).ToListAsync().Result.First();
-            IEnumerable<Schedule> publishedSchedule = scheduleCollection.Find(x => x.Published == true).ToListAsync().Result;
-
-            if (publishedSchedule.Any())
-            {
-                var filter = Builders<Schedule>.Filter.Eq("Published", true);
-                var update = Builders<Schedule>.Update
-                                .Set("Rooms", unpublishedSchedule.Rooms)
-                                .Set("TimeSlots", unpublishedSchedule.TimeSlots);
-
-                scheduleCollection.UpdateOne(filter, update);
-            } else
-            {
-                var newSchedule = new Schedule
-                {
-                    Rooms = unpublishedSchedule.Rooms,
-                    TimeSlots = unpublishedSchedule.TimeSlots
-                };
-
-                scheduleCollection.InsertOne(newSchedule);
-            }
-        }
-
-        public void UnpublishSchedule()
-        {
-            var scheduleCollection = database.GetCollection<Schedule>("schedule");
-            var filter = Builders<Schedule>.Filter.Eq("Published", true);
-            scheduleCollection.DeleteOne(filter);
         }
     }
 }

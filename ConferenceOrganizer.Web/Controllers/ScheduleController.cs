@@ -30,9 +30,9 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody] Schedule schedule)
+        public Schedule Put(string id, [FromBody] Schedule schedule)
         {
-            scheduleDomain.UpdateSchedule(id, schedule);
+            return scheduleDomain.UpdateSchedule(id, schedule);
         }
 
         [HttpPut("publish")]

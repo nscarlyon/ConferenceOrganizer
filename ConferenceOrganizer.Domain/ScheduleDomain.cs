@@ -1,5 +1,6 @@
 ﻿using ConferenceOrganizer.Data;
 using System.Collections.Generic;
+using System;
 
 namespace ConferenceOrganizer.Domain
 {
@@ -29,9 +30,23 @@ namespace ConferenceOrganizer.Domain
             conferenceOrganizerDatabase.PostSchedule(schedule);
         }
 
-        public void UpdateSchedule(string id, Schedule schedule)
+        public Schedule UpdateSchedule(string id, Schedule schedule)
         {
             conferenceOrganizerDatabase.PutSchedule(id, schedule);
+            UpdateSessions(schedule);
+            return GetSchedule();
+        }
+
+        public void UpdateSessions(Schedule schedule)
+        {
+            var sessions = conferenceOrganizerDatabase.GetSessions();
+            foreach (var session in sessions)
+            {
+                if (!schedule.Rooms.Exists(x => x == session.Room))
+                {
+                    conferenceOrganizerDatabase.DeleteSession(session.id);
+                }
+            }
         }
 
         public void PublishSchedule()
@@ -43,7 +58,6 @@ namespace ConferenceOrganizer.Domain
         {
             conferenceOrganizerDatabase.UnpublishSchedule();
         }
-
 
         public void DeleteSchedule()
         {

@@ -34,6 +34,17 @@ namespace ConferenceOrganizer.Domain
             conferenceOrganizerDatabase.PutSchedule(id, schedule);
         }
 
+        public void PublishSchedule()
+        {
+            conferenceOrganizerDatabase.PublishSchedule();
+        }
+
+        public void UnpublishSchedule()
+        {
+            conferenceOrganizerDatabase.UnpublishSchedule();
+        }
+
+
         public void DeleteSchedule()
         {
             conferenceOrganizerDatabase.DeleteSchedule();

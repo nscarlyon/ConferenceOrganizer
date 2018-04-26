@@ -35,6 +35,18 @@ namespace ConferenceOrganizer.Web.Controllers
             scheduleDomain.UpdateSchedule(id, schedule);
         }
 
+        [HttpPut("publish")]
+        public void PublishSchedule()
+        {
+            scheduleDomain.PublishSchedule();
+        }
+
+        [HttpPut("unpublish")]
+        public void UnpublishSchedule()
+        {
+            scheduleDomain.UnpublishSchedule();
+        }
+
         // DELETE: api/ApiWithActions/5
         [HttpDelete]
         public void Delete()

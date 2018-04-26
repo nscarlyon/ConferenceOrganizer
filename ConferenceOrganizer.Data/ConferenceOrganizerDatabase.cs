@@ -137,5 +137,23 @@ namespace ConferenceOrganizer.Data
                                             .Set("TimeSlots", newSchedule.TimeSlots);
             scheduleCollection.UpdateOne(filter, update);
         }
+
+        public void PublishSchedule()
+        {
+            var scheduleCollection = database.GetCollection<Schedule>("schedule");
+            Schedule unpublishedSchedule = scheduleCollection.Find(x => x.Published == false).ToListAsync().Result.First();
+            unpublishedSchedule.Published = true;
+            var filter = Builders<Schedule>.Filter.Eq("id", unpublishedSchedule.id);
+            scheduleCollection.ReplaceOne(filter, unpublishedSchedule);
+        }
+
+        public void UnpublishSchedule()
+        {
+            var scheduleCollection = database.GetCollection<Schedule>("schedule");
+            Schedule publishedSchedule = scheduleCollection.Find(x => x.Published == true).ToListAsync().Result.First();
+            publishedSchedule.Published = false;
+            var filter = Builders<Schedule>.Filter.Eq("id", publishedSchedule.id);
+            scheduleCollection.ReplaceOne(filter, publishedSchedule);
+        }
     }
 }

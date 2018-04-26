@@ -10,7 +10,7 @@ namespace ConferenceOrganizer.Data
         public string id { get; set; }
         public bool Published { get; set; }
         public List<string> Rooms { get; set; }
-        public IEnumerable<TimeSlot> TimeSlots { get; set; }
+        public List<TimeSlot> TimeSlots { get; set; }
         public IEnumerable<Session> Sessions { get; set; }
     }
 }

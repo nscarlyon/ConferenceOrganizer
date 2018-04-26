@@ -46,6 +46,11 @@ namespace ConferenceOrganizer.Domain
                 {
                     conferenceOrganizerDatabase.DeleteSession(session.id);
                 }
+
+                else if (!schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime)) 
+                {
+                    conferenceOrganizerDatabase.DeleteSession(session.id);
+                }
             }
         }
 

@@ -16,12 +16,18 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         // GET: api/Schedule
-        [HttpGet]
-        public Schedule Get()
+        [HttpGet("published")]
+        public Schedule GetRoughSchedule()
         {
-            return scheduleDomain.GetSchedule();
+            return scheduleDomain.GetPublishedSchedule();
         }
-        
+
+        [HttpGet("rough")]
+        public Schedule GetPublishedSchedule()
+        {
+            return scheduleDomain.GetRoughSchedule();
+        }
+
         // POST: api/Schedule
         [HttpPost]
         public void Post([FromBody]Schedule schedule)
@@ -30,9 +36,9 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody] Schedule schedule)
+        public void Put([FromBody] Schedule schedule)
         {
-            scheduleDomain.UpdateSchedule(id, schedule);
+            scheduleDomain.UpdateSchedule(schedule);
         }
 
         // DELETE: api/ApiWithActions/5
@@ -40,6 +46,18 @@ namespace ConferenceOrganizer.Web.Controllers
         public void Delete()
         {
             scheduleDomain.DeleteSchedule();
+        }
+
+        [HttpPut("publish")]
+        public void PublishSchedule()
+        {
+            scheduleDomain.PublishSchedule();
+        }
+
+        [HttpPut("unpublish")]
+        public void UnpublishSchedule()
+        {
+            scheduleDomain.UnpublishSchedule();
         }
     }
 }

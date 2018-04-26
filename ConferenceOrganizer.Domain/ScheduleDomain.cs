@@ -12,11 +12,23 @@ namespace ConferenceOrganizer.Domain
             this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
         }
 
-        public Schedule GetSchedule()
+        public Schedule GetRoughSchedule()
         {
             var sessions = conferenceOrganizerDatabase.GetSessions();
-            var schedule = conferenceOrganizerDatabase.GetSchedule();
+            var schedule = conferenceOrganizerDatabase.GetRoughSchedule();
             if(schedule != null)
+            {
+                schedule.Sessions = sessions;
+                return schedule;
+            }
+            return null;
+        }
+
+        public Schedule GetPublishedSchedule()
+        {
+            var sessions = conferenceOrganizerDatabase.GetSessions();
+            var schedule = conferenceOrganizerDatabase.GetPublishedSchedule();
+            if (schedule != null)
             {
                 schedule.Sessions = sessions;
                 return schedule;
@@ -29,14 +41,24 @@ namespace ConferenceOrganizer.Domain
             conferenceOrganizerDatabase.PostSchedule(schedule);
         }
 
-        public void UpdateSchedule(string id, Schedule schedule)
+        public void UpdateSchedule(Schedule schedule)
         {
-            conferenceOrganizerDatabase.PutSchedule(id, schedule);
+            conferenceOrganizerDatabase.PutSchedule(schedule);
         }
 
         public void DeleteSchedule()
         {
             conferenceOrganizerDatabase.DeleteSchedule();
+        }
+
+        public void PublishSchedule()
+        {
+            conferenceOrganizerDatabase.PublishSchedule();
+        }
+
+        public void UnpublishSchedule()
+        {
+            conferenceOrganizerDatabase.UnpublishSchedule();
         }
     }
 }

@@ -9,6 +9,8 @@ namespace ConferenceOrganizer.Data
         public string id { get; set; }
         public string SpeakerName { get; set; }
         public string Title { get; set; }
+        public string Bio { get; set; }
+        public string Description { get; set; }
         public string Room { get; set; }
         public string StandardTime { get; set; }
     }

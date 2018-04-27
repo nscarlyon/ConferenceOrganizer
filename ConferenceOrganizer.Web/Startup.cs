@@ -38,7 +38,7 @@ namespace ConferenceOrganizer.Web
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
             });
-            services.AddTransient<IConferenceOrganizerDatabase, ConferenceOrganizerDatabase>();
+            services.AddTransient<IScheduleCollection, ScheduleCollection>();
             services.AddTransient<ProposalsDomain, ProposalsDomain>();
             services.AddTransient<SessionsDomain, SessionsDomain>();
             services.AddTransient<ScheduleDomain, ScheduleDomain>();

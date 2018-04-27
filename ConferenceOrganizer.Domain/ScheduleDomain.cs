@@ -6,13 +6,13 @@ namespace ConferenceOrganizer.Domain
 {
     public class ScheduleDomain
     {
-        public IConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        public IScheduleCollection scheduleCollection;
         private SessionsCollection sessionsCollection;
         private ProposalsCollection proposalsCollection;
 
-        public ScheduleDomain(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
+        public ScheduleDomain(IScheduleCollection scheduleCollection)
         {
-            this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
+            this.scheduleCollection = scheduleCollection;
             sessionsCollection = new SessionsCollection();
             proposalsCollection = new ProposalsCollection();
 
@@ -21,7 +21,7 @@ namespace ConferenceOrganizer.Domain
         public Schedule GetSchedule()
         {
             var sessions = sessionsCollection.GetSessions();
-            var schedule = conferenceOrganizerDatabase.GetSchedule();
+            var schedule = scheduleCollection.GetSchedule();
             if(schedule != null)
             {
                 var sortedTimeSlots = SortTimeSlots(schedule.TimeSlots);
@@ -42,12 +42,12 @@ namespace ConferenceOrganizer.Domain
 
         public void PostSchedule(Schedule schedule)
         {
-            conferenceOrganizerDatabase.PostSchedule(schedule);
+            scheduleCollection.PostSchedule(schedule);
         }
 
         public Schedule UpdateSchedule(string id, Schedule schedule)
         {
-            conferenceOrganizerDatabase.PutSchedule(id, schedule);
+            scheduleCollection.PutSchedule(id, schedule);
             UpdateSessions(schedule);
             return GetSchedule();
         }
@@ -79,17 +79,17 @@ namespace ConferenceOrganizer.Domain
 
         public void PublishSchedule()
         {
-            conferenceOrganizerDatabase.PublishSchedule();
+            scheduleCollection.PublishSchedule();
         }
 
         public void UnpublishSchedule()
         {
-            conferenceOrganizerDatabase.UnpublishSchedule();
+            scheduleCollection.UnpublishSchedule();
         }
 
         public void DeleteSchedule()
         {
-            conferenceOrganizerDatabase.DeleteSchedule();
+            scheduleCollection.DeleteSchedule();
         }
     }
 }

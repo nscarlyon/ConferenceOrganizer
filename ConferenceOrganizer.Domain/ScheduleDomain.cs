@@ -1,6 +1,7 @@
 ﻿using ConferenceOrganizer.Data;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace ConferenceOrganizer.Domain
 {
@@ -19,10 +20,20 @@ namespace ConferenceOrganizer.Domain
             var schedule = conferenceOrganizerDatabase.GetSchedule();
             if(schedule != null)
             {
+                var sortedTimeSlots = SortTimeSlots(schedule.TimeSlots);
+                schedule.TimeSlots = sortedTimeSlots;
                 schedule.Sessions = sessions;
                 return schedule;
             }
             return null;
+        }
+
+        public List<TimeSlot> SortTimeSlots(List<TimeSlot> timeSlots)
+        {
+            var sortedTimeSlots = timeSlots.OrderBy(t => t.StartHour)
+                                           .ThenBy(t => t.StartMin)
+                                           .ToList<TimeSlot>();
+            return sortedTimeSlots;
         }
 
         public void PostSchedule(Schedule schedule)

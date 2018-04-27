@@ -54,11 +54,19 @@ namespace ConferenceOrganizer.Domain
             {
                 if (!schedule.Rooms.Exists(x => x == session.Room) && session.Break == false)
                 {
+                    var proposal = conferenceOrganizerDatabase.FindProposal(session.ProposalId);
+                    var scheduledTimes = proposal.scheduledTimes.Where(x => x.room != session.Room);
+                    proposal.scheduledTimes = scheduledTimes.ToList();
+                    conferenceOrganizerDatabase.UpdateProposal(proposal);
                     conferenceOrganizerDatabase.DeleteSession(session.id);
                 }
 
                 else if (!schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime)) 
                 {
+                    var proposal = conferenceOrganizerDatabase.FindProposal(session.ProposalId);
+                    var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
+                    proposal.scheduledTimes = scheduledTimes.ToList();
+                    conferenceOrganizerDatabase.UpdateProposal(proposal);
                     conferenceOrganizerDatabase.DeleteSession(session.id);
                 }
             }

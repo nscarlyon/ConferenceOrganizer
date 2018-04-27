@@ -4,7 +4,6 @@ namespace ConferenceOrganizer.Data
 {
     public interface IConferenceOrganizerDatabase
     {
-        IEnumerable<string> GetSpeakers();
         Session GetSession(string id);
         IEnumerable<Session> GetSessions();
         void PostSession(Session session);
@@ -12,7 +11,6 @@ namespace ConferenceOrganizer.Data
         void PutSession(string id, Session session);
 
         IEnumerable<Proposal> GetProposals();
-        IEnumerable<Proposal> GetProposalsBySpeaker(string name);
         Proposal FindProposal(string id);
         void UpdateProposal(Proposal proposal);
         void PostProposal(Proposal proposal);

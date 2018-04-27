@@ -15,21 +15,6 @@ namespace ConferenceOrganizer.Data
             collection = database.GetCollection<Proposal>("proposals");
         }
 
-        public IEnumerable<string> GetSpeakers()
-        {
-            var result = collection.AsQueryable<Proposal>()
-                                   .Select(p => p.speakerName)
-                                   .Distinct();
-            return result;
-        }
-
-        public IEnumerable<Proposal> GetProposalsBySpeaker(string name)
-        {
-            var filterName = name.Replace("-", " ");
-            var filter = Builders<Proposal>.Filter.Eq("speakerName", filterName);
-            return collection.Find(filter).ToListAsync().Result;
-        }
-
         public void DeleteSessions()
         {
             var sessionsCollection = database.GetCollection<Session>("sessions");

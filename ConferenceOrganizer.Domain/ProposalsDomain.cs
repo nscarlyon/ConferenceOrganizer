@@ -5,41 +5,41 @@ namespace ConferenceOrganizer.Domain
 {
     public class ProposalsDomain
     {
-        private ConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        private ProposalsCollection proposalsCollection;
 
         public ProposalsDomain()
         {
-            conferenceOrganizerDatabase = new ConferenceOrganizerDatabase(); 
+            proposalsCollection = new ProposalsCollection(); 
         }
 
         public IEnumerable<Proposal> GetProposals()
         {
-            return conferenceOrganizerDatabase.GetProposals();
+            return proposalsCollection.GetProposals();
         }
 
         public Proposal GetProposalById(string id)
         {
-            return conferenceOrganizerDatabase.FindProposal(id);
+            return proposalsCollection.FindProposal(id);
         }
 
         public void PostProposal(Proposal proposal)
         {
-            conferenceOrganizerDatabase.PostProposal(proposal);
+            proposalsCollection.PostProposal(proposal);
         }
 
         public void UpdateProposal(Proposal proposal)
         {
-            conferenceOrganizerDatabase.UpdateProposal(proposal);
+            proposalsCollection.UpdateProposal(proposal);
         }
 
         public void DeleteProposalById(string id)
         {
-            conferenceOrganizerDatabase.DeleteProposal(id);
+            proposalsCollection.DeleteProposal(id);
         }
 
         public void DeleteProposals()
         {
-            conferenceOrganizerDatabase.DeleteProposals();
+            proposalsCollection.DeleteProposals();
         }
     }
 }

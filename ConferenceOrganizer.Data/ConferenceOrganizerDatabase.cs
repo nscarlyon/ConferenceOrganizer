@@ -15,36 +15,36 @@ namespace ConferenceOrganizer.Data
             collection = database.GetCollection<Proposal>("proposals");
         }
 
-        public IEnumerable<Proposal> GetProposals()
-        {
-            return collection.Find(x => true).ToListAsync().Result;
-        }
+        //public IEnumerable<Proposal> GetProposals()
+        //{
+        //    return collection.Find(x => true).ToListAsync().Result;
+        //}
 
-        public Proposal FindProposal(string id)
-        {
-            return collection.Find(x => x.id == id).First();
-        }
+        //public Proposal FindProposal(string id)
+        //{
+        //    return collection.Find(x => x.id == id).First();
+        //}
 
-        public void PostProposal(Proposal proposal)
-        {
-            collection.InsertOne(proposal);
-        }
+        //public void PostProposal(Proposal proposal)
+        //{
+        //    collection.InsertOne(proposal);
+        //}
 
-        public void UpdateProposal(Proposal proposal)
-        {
-            var filter = Builders<Proposal>.Filter.Eq("id", proposal.id);
-            collection.ReplaceOne(filter, proposal);
-        }
+        //public void UpdateProposal(Proposal proposal)
+        //{
+        //    var filter = Builders<Proposal>.Filter.Eq("id", proposal.id);
+        //    collection.ReplaceOne(filter, proposal);
+        //}
 
-        public void DeleteProposal(string id)
-        {
-            collection.DeleteOne(X=> X.id == id);
-        }
+        //public void DeleteProposal(string id)
+        //{
+        //    collection.DeleteOne(X=> X.id == id);
+        //}
 
-        public void DeleteProposals()
-        {
-            collection.DeleteMany(X => true);
-        }
+        //public void DeleteProposals()
+        //{
+        //    collection.DeleteMany(X => true);
+        //}
 
         public Schedule GetSchedule()
         {

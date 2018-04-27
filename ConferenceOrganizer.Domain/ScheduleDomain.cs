@@ -8,11 +8,13 @@ namespace ConferenceOrganizer.Domain
     {
         public IConferenceOrganizerDatabase conferenceOrganizerDatabase;
         private SessionsCollection sessionsCollection;
+        private ProposalsCollection proposalsCollection;
 
         public ScheduleDomain(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
         {
             this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
             sessionsCollection = new SessionsCollection();
+            proposalsCollection = new ProposalsCollection();
 
         }
 
@@ -57,19 +59,19 @@ namespace ConferenceOrganizer.Domain
             {
                 if (!schedule.Rooms.Exists(x => x == session.Room) && session.Break == false)
                 {
-                    var proposal = conferenceOrganizerDatabase.FindProposal(session.ProposalId);
+                    var proposal = proposalsCollection.FindProposal(session.ProposalId);
                     var scheduledTimes = proposal.scheduledTimes.Where(x => x.room != session.Room);
                     proposal.scheduledTimes = scheduledTimes.ToList();
-                    conferenceOrganizerDatabase.UpdateProposal(proposal);
+                    proposalsCollection.UpdateProposal(proposal);
                     sessionsCollection.DeleteSession(session.id);
                 }
 
                 else if (!schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime)) 
                 {
-                    var proposal = conferenceOrganizerDatabase.FindProposal(session.ProposalId);
+                    var proposal = proposalsCollection.FindProposal(session.ProposalId);
                     var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
                     proposal.scheduledTimes = scheduledTimes.ToList();
-                    conferenceOrganizerDatabase.UpdateProposal(proposal);
+                    proposalsCollection.UpdateProposal(proposal);
                     sessionsCollection.DeleteSession(session.id);
                 }
             }

@@ -4,9 +4,6 @@ namespace ConferenceOrganizer.Data
 {
     public interface IConferenceOrganizerDatabase
     {
-        CFP GetCFPStatus();
-        void PutCFP(string id, CFP cfp);
-
         IEnumerable<string> GetSpeakers();
         Session GetSession(string id);
         IEnumerable<Session> GetSessions();

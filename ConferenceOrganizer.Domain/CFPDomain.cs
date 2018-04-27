@@ -1,27 +1,24 @@
 ﻿using ConferenceOrganizer.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ConferenceOrganizer.Domain
 {
     public class CFPDomain
     {
-        private ConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        private CFPCollection cfpCollection;
 
         public CFPDomain()
         {
-            conferenceOrganizerDatabase = new ConferenceOrganizerDatabase();
+            cfpCollection = new CFPCollection();
         }
 
         public CFP GetCfp()
         {
-            return conferenceOrganizerDatabase.GetCFPStatus();
+            return cfpCollection.GetCFPStatus();
         }
 
         public void PutCfp(string id, CFP cfp)
         {
-            conferenceOrganizerDatabase.PutCFP(id, cfp);
+            cfpCollection.PutCFP(id, cfp);
         } 
     }
 }

@@ -30,23 +30,10 @@ namespace ConferenceOrganizer.Data
             return collection.Find(filter).ToListAsync().Result;
         }
 
-        public void PutCFP(string id, CFP cfp)
-        {
-            var cfpCollection = database.GetCollection<CFP>("cfp");
-            var filter = Builders<CFP>.Filter.Eq("id", id);
-            cfpCollection.FindOneAndReplace(filter, cfp);
-        }
-
         public void DeleteSessions()
         {
             var sessionsCollection = database.GetCollection<Session>("sessions");
             sessionsCollection.DeleteMany(X => true);
-        }
-
-        public CFP GetCFPStatus()
-        {
-            var cfpCollection = database.GetCollection<CFP>("cfp");
-            return cfpCollection.Find(x => true).ToListAsync().Result[0];
         }
 
         public IEnumerable<Proposal> GetProposals()

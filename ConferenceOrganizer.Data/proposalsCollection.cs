@@ -23,7 +23,7 @@ namespace ConferenceOrganizer.Data
 
         public Proposal FindProposal(string id)
         {
-            return collection.Find(x => x.id == id).First();
+            return collection.Find(x => x.id == id).FirstOrDefault();
         }
 
         public void PostProposal(Proposal proposal)

@@ -7,15 +7,14 @@ namespace ConferenceOrganizer.Domain
     public class ScheduleDomain
     {
         public IScheduleCollection scheduleCollection;
-        private SessionsCollection sessionsCollection;
-        private ProposalsCollection proposalsCollection;
+        public ISessionsCollection sessionsCollection;
+        public IProposalsCollection proposalsCollection;
 
-        public ScheduleDomain(IScheduleCollection scheduleCollection)
+        public ScheduleDomain(IScheduleCollection scheduleCollection, ISessionsCollection sessionsCollection, IProposalsCollection proposalsCollection)
         {
             this.scheduleCollection = scheduleCollection;
-            sessionsCollection = new SessionsCollection();
-            proposalsCollection = new ProposalsCollection();
-
+            this.sessionsCollection = sessionsCollection;
+            this.proposalsCollection = proposalsCollection;
         }
 
         public Schedule GetSchedule()
@@ -48,13 +47,14 @@ namespace ConferenceOrganizer.Domain
         public Schedule UpdateSchedule(string id, Schedule schedule)
         {
             scheduleCollection.PutSchedule(id, schedule);
-            UpdateSessions(schedule);
+            UpdateSessionsAndProposals(schedule);
             return GetSchedule();
         }
 
-        public void UpdateSessions(Schedule schedule)
+        public void UpdateSessionsAndProposals(Schedule schedule)
         {
             var sessions = sessionsCollection.GetSessions();
+
             foreach (var session in sessions)
             {
                 if (!schedule.Rooms.Exists(x => x == session.Room) && session.Break == false)
@@ -69,9 +69,12 @@ namespace ConferenceOrganizer.Domain
                 else if (!schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime)) 
                 {
                     var proposal = proposalsCollection.FindProposal(session.ProposalId);
-                    var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
-                    proposal.scheduledTimes = scheduledTimes.ToList();
-                    proposalsCollection.UpdateProposal(proposal);
+                    if (proposal != null)
+                    {
+                        var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
+                        proposal.scheduledTimes = scheduledTimes.ToList();
+                        proposalsCollection.UpdateProposal(proposal);
+                    }
                     sessionsCollection.DeleteSession(session.id);
                 }
             }

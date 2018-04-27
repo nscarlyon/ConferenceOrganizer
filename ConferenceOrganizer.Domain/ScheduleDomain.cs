@@ -7,15 +7,18 @@ namespace ConferenceOrganizer.Domain
     public class ScheduleDomain
     {
         public IConferenceOrganizerDatabase conferenceOrganizerDatabase;
+        private SessionsCollection sessionsCollection;
 
         public ScheduleDomain(IConferenceOrganizerDatabase conferenceOrganizerDatabase)
         {
             this.conferenceOrganizerDatabase = conferenceOrganizerDatabase;
+            sessionsCollection = new SessionsCollection();
+
         }
 
         public Schedule GetSchedule()
         {
-            var sessions = conferenceOrganizerDatabase.GetSessions();
+            var sessions = sessionsCollection.GetSessions();
             var schedule = conferenceOrganizerDatabase.GetSchedule();
             if(schedule != null)
             {
@@ -49,7 +52,7 @@ namespace ConferenceOrganizer.Domain
 
         public void UpdateSessions(Schedule schedule)
         {
-            var sessions = conferenceOrganizerDatabase.GetSessions();
+            var sessions = sessionsCollection.GetSessions();
             foreach (var session in sessions)
             {
                 if (!schedule.Rooms.Exists(x => x == session.Room) && session.Break == false)
@@ -58,7 +61,7 @@ namespace ConferenceOrganizer.Domain
                     var scheduledTimes = proposal.scheduledTimes.Where(x => x.room != session.Room);
                     proposal.scheduledTimes = scheduledTimes.ToList();
                     conferenceOrganizerDatabase.UpdateProposal(proposal);
-                    conferenceOrganizerDatabase.DeleteSession(session.id);
+                    sessionsCollection.DeleteSession(session.id);
                 }
 
                 else if (!schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime)) 
@@ -67,7 +70,7 @@ namespace ConferenceOrganizer.Domain
                     var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
                     proposal.scheduledTimes = scheduledTimes.ToList();
                     conferenceOrganizerDatabase.UpdateProposal(proposal);
-                    conferenceOrganizerDatabase.DeleteSession(session.id);
+                    sessionsCollection.DeleteSession(session.id);
                 }
             }
         }

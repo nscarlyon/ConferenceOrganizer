@@ -1,6 +1,5 @@
 ﻿using ConferenceOrganizer.Data;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 
 namespace ConferenceOrganizer.Domain
@@ -53,7 +52,7 @@ namespace ConferenceOrganizer.Domain
             var sessions = conferenceOrganizerDatabase.GetSessions();
             foreach (var session in sessions)
             {
-                if (!schedule.Rooms.Exists(x => x == session.Room))
+                if (!schedule.Rooms.Exists(x => x == session.Room) && session.Break == false)
                 {
                     conferenceOrganizerDatabase.DeleteSession(session.id);
                 }

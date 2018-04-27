@@ -7,6 +7,7 @@ namespace ConferenceOrganizer.Data
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
+        public bool Break { get; set; }
         public string SpeakerName { get; set; }
         public string Email { get; set; }
         public string ProposalId { get; set; }

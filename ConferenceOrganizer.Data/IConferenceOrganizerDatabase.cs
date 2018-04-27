@@ -17,6 +17,7 @@ namespace ConferenceOrganizer.Data
         IEnumerable<Proposal> GetProposals();
         IEnumerable<Proposal> GetProposalsBySpeaker(string name);
         Proposal FindProposal(string id);
+        void UpdateProposal(Proposal proposal);
         void PostProposal(Proposal proposal);
         void DeleteProposal(string id);
         void DeleteProposals();

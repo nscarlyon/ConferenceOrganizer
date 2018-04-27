@@ -27,6 +27,11 @@ namespace ConferenceOrganizer.Domain
             conferenceOrganizerDatabase.PostProposal(proposal);
         }
 
+        public void UpdateProposal(Proposal proposal)
+        {
+            conferenceOrganizerDatabase.UpdateProposal(proposal);
+        }
+
         public void DeleteProposalById(string id)
         {
             conferenceOrganizerDatabase.DeleteProposal(id);

@@ -27,6 +27,12 @@ namespace ConferenceOrganizer.Web.Controllers
         {
             return proposalsDomain.GetProposalById(id);
         }
+
+        [HttpPut]
+        public void Put([FromBody] Proposal proposal)
+        {
+            proposalsDomain.UpdateProposal(proposal);
+        }
         
         [HttpPost]
         public HttpResponseMessage Post([FromBody]Proposal proposal)

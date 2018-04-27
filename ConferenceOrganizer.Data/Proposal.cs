@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace ConferenceOrganizer.Data
 {
@@ -7,6 +8,7 @@ namespace ConferenceOrganizer.Data
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
+        public List<ScheduledTime> scheduledTimes {get; set;}
         public string speakerName { get; set; }
         public string bio { get; set; }
         public string title { get; set; }
@@ -14,4 +16,9 @@ namespace ConferenceOrganizer.Data
         public string email { get; set; }
     }
 
+    public class ScheduledTime
+    {
+        public string room { get; set; }
+        public string standardTime { get; set; }
+    }
 }

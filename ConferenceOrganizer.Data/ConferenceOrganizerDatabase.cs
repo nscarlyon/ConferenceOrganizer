@@ -64,6 +64,12 @@ namespace ConferenceOrganizer.Data
             collection.InsertOne(proposal);
         }
 
+        public void UpdateProposal(Proposal proposal)
+        {
+            var filter = Builders<Proposal>.Filter.Eq("id", proposal.id);
+            collection.ReplaceOne(filter, proposal);
+        }
+
         public void DeleteProposal(string id)
         {
             collection.DeleteOne(X=> X.id == id);

@@ -17,25 +17,25 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Proposal> Get()
+        public IEnumerable<MongoProposal> Get()
         {
             return proposalsDomain.GetProposals();
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public Proposal Get(string id)
+        public MongoProposal Get(string id)
         {
             return proposalsDomain.GetProposalById(id);
         }
 
         [HttpPut]
-        public void Put([FromBody] Proposal proposal)
+        public void Put([FromBody] MongoProposal proposal)
         {
             proposalsDomain.UpdateProposal(proposal);
         }
         
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]Proposal proposal)
+        public HttpResponseMessage Post([FromBody]MongoProposal proposal)
         {
             proposalsDomain.PostProposal(proposal);
             return new HttpResponseMessage("Proposal successfully submitted");

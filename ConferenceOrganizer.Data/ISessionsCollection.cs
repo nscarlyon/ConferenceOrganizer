@@ -6,10 +6,10 @@ namespace ConferenceOrganizer.Data
 {
     public interface ISessionsCollection
     {
-        Session GetSession(string id);
-        IEnumerable<Session> GetSessions();
-        void PostSession(Session session);
+        MongoSession GetSession(string id);
+        IEnumerable<MongoSession> GetSessions();
+        void PostSession(MongoSession session);
         void DeleteSession(string id);
-        void PutSession(string id, Session session);
+        void PutSession(string id, MongoSession session);
     }
 }

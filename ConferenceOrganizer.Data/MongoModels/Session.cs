@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace ConferenceOrganizer.Data
 {
-    public class Session
+    public class MongoSession
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }

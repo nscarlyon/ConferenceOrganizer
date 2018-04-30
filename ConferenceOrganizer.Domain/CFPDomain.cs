@@ -11,12 +11,12 @@ namespace ConferenceOrganizer.Domain
             cfpCollection = new CFPCollection();
         }
 
-        public CFP GetCfp()
+        public MongoCFP GetCfp()
         {
             return cfpCollection.GetCFPStatus();
         }
 
-        public void PutCfp(string id, CFP cfp)
+        public void PutCfp(string id, MongoCFP cfp)
         {
             cfpCollection.PutCFP(id, cfp);
         } 

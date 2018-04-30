@@ -1,6 +1,6 @@
 ﻿namespace ConferenceOrganizer.Data
 {
-    public class TimeSlot
+    public class MongoTimeSlot
     {
         public string StandardTime { get; set; }
         public int StartHour { get; set; }

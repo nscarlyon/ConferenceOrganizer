@@ -6,10 +6,10 @@ namespace ConferenceOrganizer.Data
 {
     public interface IProposalsCollection
     {
-        IEnumerable<Proposal> GetProposals();
-        Proposal FindProposal(string id);
-        void UpdateProposal(Proposal proposal);
-        void PostProposal(Proposal proposal);
+        IEnumerable<MongoProposal> GetProposals();
+        MongoProposal FindProposal(string id);
+        void UpdateProposal(MongoProposal proposal);
+        void PostProposal(MongoProposal proposal);
         void DeleteProposal(string id);
         void DeleteProposals();
     }

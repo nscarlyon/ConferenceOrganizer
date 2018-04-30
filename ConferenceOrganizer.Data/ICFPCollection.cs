@@ -6,7 +6,7 @@ namespace ConferenceOrganizer.Data
 {
     public interface ICFPCollection
     {
-        CFP GetCFPStatus();
-        void PutCFP(string id, CFP cfp);
+        MongoCFP GetCFPStatus();
+        void PutCFP(string id, MongoCFP cfp);
     }
 }

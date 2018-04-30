@@ -17,14 +17,14 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpGet]
-        public CFP Get()
+        public MongoCFP Get()
         {
             Request.Headers.Add("Access-Control-Allow-Origin", "*");
             return cfpDomain.GetCfp();
         }    
         
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]CFP value)
+        public void Put(string id, [FromBody]MongoCFP value)
         {
             cfpDomain.PutCfp(id, value);
         }

@@ -4,12 +4,13 @@ using System.Collections.Generic;
 
 namespace ConferenceOrganizer.Data
 {
-    public class MongoSchedule
+    public class Schedule
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public bool Published { get; set; }
         public List<string> Rooms { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
+        public IEnumerable<Session> Sessions { get; set; }
     }
 }

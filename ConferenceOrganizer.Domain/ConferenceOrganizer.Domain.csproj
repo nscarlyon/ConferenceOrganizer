@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DomainModels\TimeSlot.cs" />
     <Compile Remove="OrderedSchedule.cs" />
   </ItemGroup>
 

@@ -1,13 +1,12 @@
-﻿using ConferenceOrganizer.Data.MongoModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ConferenceOrganizer.Data
 {
     public interface IScheduleCollection
     {
-        MongoSchedule GetSchedule();
-        void PostSchedule(MongoSchedule schedule);
-        void PutSchedule(string id, MongoSchedule schedule);
+        Schedule GetSchedule();
+        void PostSchedule(Schedule schedule);
+        void PutSchedule(string id, Schedule schedule);
         void PublishSchedule();
         void UnpublishSchedule();
         void DeleteSchedule();

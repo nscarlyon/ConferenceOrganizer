@@ -1,6 +1,4 @@
 ﻿using ConferenceOrganizer.Data;
-using ConferenceOrganizer.Data.MongoModels;
-using ConferenceOrganizer.Domain.DomainModels;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,72 +17,41 @@ namespace ConferenceOrganizer.Domain
             this.proposalsCollection = proposalsCollection;
         }
 
-        public ScheduleResponse GetSchedule()
+        public Schedule GetSchedule()
         {
-            var mongoSessions = sessionsCollection.GetSessions();
-            var mongoSchedule = scheduleCollection.GetSchedule();
-            if(mongoSchedule != null)
+            var sessions = sessionsCollection.GetSessions();
+            var schedule = scheduleCollection.GetSchedule();
+            if(schedule != null)
             {
-                var sortedTimeSlots = SortTimeSlots(mongoSchedule.TimeSlots);
-                var sessionResponse = GetSessionResponse(mongoSessions);
-                var scheduleResponse = new ScheduleResponse()
-                {
-                    Published = mongoSchedule.Published,
-                    TimeSlots = sortedTimeSlots,
-                    Sessions = sessionResponse,
-                };
-
-                return scheduleResponse;
+                var sortedTimeSlots = SortTimeSlots(schedule.TimeSlots);
+                schedule.TimeSlots = sortedTimeSlots;
+                schedule.Sessions = sessions;
+                return schedule;
             }
             return null;
         }
 
-        private List<SessionResponse> GetSessionResponse(IEnumerable<MongoSession> mongoSessions)
+        public List<TimeSlot> SortTimeSlots(List<TimeSlot> timeSlots)
         {
-            var sessionResponse = mongoSessions.Select(s => new SessionResponse
-            {
-                Bio = s.Bio,
-                Break = s.Break,
-                SpeakerName = s.SpeakerName,
-                Email = s.Email,
-                ProposalId = s.ProposalId,
-                Title = s.Title,
-                Description = s.Description,
-                Room = s.Room,
-                StandardTime = s.StandardTime
-            }).ToList();
-
-            return sessionResponse;
-        }
-
-        public List<TimeSlotResponse> SortTimeSlots(List<TimeSlot> timeSlots)
-        {
-            var timeSlotResponse = timeSlots.Select(t => new TimeSlotResponse {
-                StandardTime = t.StandardTime,
-                StartHour = t.StartHour,
-                StartMin = t.StartMin,
-                EndHour = t.EndHour,
-                EndMin = t.EndMin
-            });
-            var sortedTimeSlots = timeSlotResponse.OrderBy(t => t.StartHour)
+            var sortedTimeSlots = timeSlots.OrderBy(t => t.StartHour)
                                            .ThenBy(t => t.StartMin)
-                                           .ToList();
+                                           .ToList<TimeSlot>();
             return sortedTimeSlots;
         }
 
-        public void PostSchedule(MongoSchedule schedule)
+        public void PostSchedule(Schedule schedule)
         {
             scheduleCollection.PostSchedule(schedule);
         }
 
-        public ScheduleResponse UpdateSchedule(string id, MongoSchedule schedule)
+        public Schedule UpdateSchedule(string id, Schedule schedule)
         {
             scheduleCollection.PutSchedule(id, schedule);
             UpdateSessionsAndProposals(schedule);
             return GetSchedule();
         }
 
-        public void UpdateSessionsAndProposals(MongoSchedule schedule)
+        public void UpdateSessionsAndProposals(Schedule schedule)
         {
             var sessions = sessionsCollection.GetSessions();
 

@@ -7,33 +7,33 @@ namespace ConferenceOrganizer.Data
 {
     public class ProposalsCollection : IProposalsCollection
     {
-        IMongoCollection<MongoProposal> collection;
+        IMongoCollection<Proposal> collection;
         IMongoDatabase database;
 
         public ProposalsCollection()
         {
             database = new MongoClient("mongodb://127.0.0.1:27017").GetDatabase("conferenceOrganizer");
-            collection = database.GetCollection<MongoProposal>("proposals");
+            collection = database.GetCollection<Proposal>("proposals");
         }
 
-        public IEnumerable<MongoProposal> GetProposals()
+        public IEnumerable<Proposal> GetProposals()
         {
             return collection.Find(x => true).ToListAsync().Result;
         }
 
-        public MongoProposal FindProposal(string id)
+        public Proposal FindProposal(string id)
         {
             return collection.Find(x => x.id == id).FirstOrDefault();
         }
 
-        public void PostProposal(MongoProposal proposal)
+        public void PostProposal(Proposal proposal)
         {
             collection.InsertOne(proposal);
         }
 
-        public void UpdateProposal(MongoProposal proposal)
+        public void UpdateProposal(Proposal proposal)
         {
-            var filter = Builders<MongoProposal>.Filter.Eq("id", proposal.id);
+            var filter = Builders<Proposal>.Filter.Eq("id", proposal.id);
             collection.ReplaceOne(filter, proposal);
         }
 

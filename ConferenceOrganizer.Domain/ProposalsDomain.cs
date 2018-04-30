@@ -12,22 +12,22 @@ namespace ConferenceOrganizer.Domain
             proposalsCollection = new ProposalsCollection(); 
         }
 
-        public IEnumerable<MongoProposal> GetProposals()
+        public IEnumerable<Proposal> GetProposals()
         {
             return proposalsCollection.GetProposals();
         }
 
-        public MongoProposal GetProposalById(string id)
+        public Proposal GetProposalById(string id)
         {
             return proposalsCollection.FindProposal(id);
         }
 
-        public void PostProposal(MongoProposal proposal)
+        public void PostProposal(Proposal proposal)
         {
             proposalsCollection.PostProposal(proposal);
         }
 
-        public void UpdateProposal(MongoProposal proposal)
+        public void UpdateProposal(Proposal proposal)
         {
             proposalsCollection.UpdateProposal(proposal);
         }

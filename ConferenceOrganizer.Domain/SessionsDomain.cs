@@ -12,22 +12,22 @@ namespace ConferenceOrganizer.Domain
             sessionsCollection = new SessionsCollection();
         }
 
-        public IEnumerable<MongoSession> GetSessions()
+        public IEnumerable<Session> GetSessions()
         {
             return sessionsCollection.GetSessions();
         }
 
-        public MongoSession GetSessionById(string id)
+        public Session GetSessionById(string id)
         {
             return sessionsCollection.GetSession(id);
         }
 
-        public void PostSession(MongoSession session)
+        public void PostSession(Session session)
         {
             sessionsCollection.PostSession(session);
         }
 
-        public void PutSession(string id, MongoSession session)
+        public void PutSession(string id, Session session)
         {
             sessionsCollection.PutSession(id, session);
         }

@@ -45,7 +45,7 @@ namespace ConferenceOrganizer.Domain
         private List<Session> GetSessions()
         {
             var mongoSessions = sessionsCollection.GetSessions();
-            var sessionResponse = mongoSessions.Select(s => new Session
+            var sessions = mongoSessions.Select(s => new Session
             {
                 Bio = s.Bio,
                 Break = s.Break,
@@ -58,7 +58,7 @@ namespace ConferenceOrganizer.Domain
                 StandardTime = s.StandardTime
             }).ToList();
 
-            return sessionResponse;
+            return sessions;
         }
 
 
@@ -97,27 +97,39 @@ namespace ConferenceOrganizer.Domain
 
             foreach (var session in sessions)
             {
-                if (!schedule.Rooms.Exists(x => x == session.Room) && session.Break == false)
+                if (RoomIsDeleted(schedule, session) || TimeSlotDeleted(schedule, session))
                 {
-                    var proposal = proposalsCollection.FindProposal(session.ProposalId);
-                    var scheduledTimes = proposal.scheduledTimes.Where(x => x.room != session.Room);
-                    proposal.scheduledTimes = scheduledTimes.ToList();
-                    proposalsCollection.UpdateProposal(proposal);
-                    sessionsCollection.DeleteSession(session.id);
-                }
-
-                else if (!schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime)) 
-                {
-                    var proposal = proposalsCollection.FindProposal(session.ProposalId);
-                    if (proposal != null)
-                    {
-                        var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
-                        proposal.scheduledTimes = scheduledTimes.ToList();
-                        proposalsCollection.UpdateProposal(proposal);
-                    }
+                    UpdateProposal(session);
                     sessionsCollection.DeleteSession(session.id);
                 }
             }
+        }
+
+        private void UpdateProposal(MongoSession session)
+        {
+            var proposal = proposalsCollection.FindProposal(session.ProposalId);
+
+            if (IsNotBreak(proposal))
+            {
+                var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
+                proposal.scheduledTimes = scheduledTimes.ToList();
+                proposalsCollection.UpdateProposal(proposal);
+            }
+        }
+
+        private static bool IsNotBreak(MongoProposal proposal)
+        {
+            return proposal != null;
+        }
+
+        private static bool TimeSlotDeleted(MongoSchedule schedule, MongoSession session)
+        {
+            return !schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime);
+        }
+
+        private static bool RoomIsDeleted(MongoSchedule schedule, MongoSession session)
+        {
+            return !schedule.Rooms.Exists(x => x == session.Room) && session.Break == false;
         }
 
         public void PublishSchedule()

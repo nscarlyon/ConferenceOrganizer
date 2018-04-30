@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ConferenceOrganizer.Data
 {
-    public class Proposal
+    public class MongoProposal
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }

@@ -4,6 +4,6 @@ namespace ConferenceOrganizer.Data
 {
     public class Rooms
     {
-        public IEnumerable<string> rooms { get; set; }
+        public IEnumerable<string> Rooms { get; set; }
     }
 }

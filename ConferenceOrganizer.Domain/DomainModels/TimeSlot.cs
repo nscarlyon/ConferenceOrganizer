@@ -1,6 +1,6 @@
-﻿namespace ConferenceOrganizer.Data
+﻿namespace ConferenceOrganizer.Domain.DomainModels
 {
-    public class TimeSlot
+    public class TimeSlotResponse
     {
         public string StandardTime { get; set; }
         public int StartHour { get; set; }

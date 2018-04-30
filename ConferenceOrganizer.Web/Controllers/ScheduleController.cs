@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ConferenceOrganizer.Domain;
 using ConferenceOrganizer.Data;
+using ConferenceOrganizer.Domain.DomainModels;
+using ConferenceOrganizer.Data.MongoModels;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
@@ -17,20 +19,20 @@ namespace ConferenceOrganizer.Web.Controllers
 
         // GET: api/Schedule
         [HttpGet]
-        public Schedule Get()
+        public ScheduleResponse Get()
         {
             return scheduleDomain.GetSchedule();
         }
         
         // POST: api/Schedule
         [HttpPost]
-        public void Post([FromBody]Schedule schedule)
+        public void Post([FromBody]MongoSchedule schedule)
         {
             scheduleDomain.PostSchedule(schedule);
         }
 
         [HttpPut("{id}")]
-        public Schedule Put(string id, [FromBody] Schedule schedule)
+        public ScheduleResponse Put(string id, [FromBody] MongoSchedule schedule)
         {
             return scheduleDomain.UpdateSchedule(id, schedule);
         }

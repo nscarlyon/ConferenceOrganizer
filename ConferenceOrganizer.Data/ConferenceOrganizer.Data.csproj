@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Models.cs" />
+    <Compile Remove="MongoModels\Rooms.cs" />
   </ItemGroup>
 
   <ItemGroup>

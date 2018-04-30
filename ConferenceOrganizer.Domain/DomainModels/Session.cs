@@ -1,11 +1,7 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace ConferenceOrganizer.Data
+﻿namespace ConferenceOrganizer.Domain.DomainModels
 {
-    public class Session
+    public class SessionResponse
     {
-        [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public bool Break { get; set; }
         public string SpeakerName { get; set; }

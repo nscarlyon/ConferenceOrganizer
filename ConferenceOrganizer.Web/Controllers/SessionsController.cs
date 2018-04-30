@@ -17,26 +17,26 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Session> Get()
+        public IEnumerable<MongoSession> Get()
         {
             return sessionsDomain.GetSessions();
         }
 
         [HttpGet("{id}")]
-        public Session Get(string id)
+        public MongoSession Get(string id)
         {
             return sessionsDomain.GetSessionById(id);
         }
 
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]Session session)
+        public HttpResponseMessage Post([FromBody]MongoSession session)
         {
             sessionsDomain.PostSession(session);
             return new HttpResponseMessage("Session successfully added");
         }
 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]Session session)
+        public void Put(string id, [FromBody]MongoSession session)
         {
             sessionsDomain.PutSession(id, session);
         }

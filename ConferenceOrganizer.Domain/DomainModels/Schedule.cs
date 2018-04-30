@@ -20,6 +20,17 @@ namespace ConferenceOrganizer.Domain.DomainModels
         public int StartMin { get; set; }
         public int EndHour { get; set; }
         public int EndMin { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var slot = obj as TimeSlot;
+            return slot != null &&
+                   StandardTime == slot.StandardTime &&
+                   StartHour == slot.StartHour &&
+                   StartMin == slot.StartMin &&
+                   EndHour == slot.EndHour &&
+                   EndMin == slot.EndMin;
+        }
     }
 
     public class Session

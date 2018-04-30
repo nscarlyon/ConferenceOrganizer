@@ -1,5 +1,6 @@
 ﻿using ConferenceOrganizer.Data;
 using ConferenceOrganizer.Domain;
+using ConferenceOrganizer.Domain.DomainModels;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -18,7 +19,7 @@ namespace ConferenceOrganizer.Tests
         [Test]
         public void TimeSlotsSortByHour()
         {
-            var firstTimeSlot = new MongoTimeSlot
+            var firstTimeSlot = new TimeSlot
             {
                 StandardTime = "9:00-10:00 A.M",
                 StartHour = 9,
@@ -26,7 +27,17 @@ namespace ConferenceOrganizer.Tests
                 EndHour = 10,
                 EndMin = 0
             };
-            var secondTimeSlot = new MongoTimeSlot
+
+            var mongoFirstTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "9:00-10:00 A.M",
+                StartHour = 9,
+                StartMin = 0,
+                EndHour = 10,
+                EndMin = 0
+            };
+
+            var secondTimeSlot = new TimeSlot
             {
                 StandardTime = "8:00-9:00 A.M",
                 StartHour = 8,
@@ -35,16 +46,26 @@ namespace ConferenceOrganizer.Tests
                 EndMin = 0
             };
 
-            var timeSlots = new List<MongoTimeSlot> { firstTimeSlot, secondTimeSlot };
-            var result = scheduleDomain.GetSortedTimeSlots(timeSlots);
-            var expected = new List<MongoTimeSlot> { secondTimeSlot, firstTimeSlot };
+            var mongoSecondTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "8:00-9:00 A.M",
+                StartHour = 8,
+                StartMin = 0,
+                EndHour = 9,
+                EndMin = 0
+            };
+
+            var mongoTimeSlots = new List<MongoTimeSlot> { mongoFirstTimeSlot, mongoSecondTimeSlot };
+            var expected = new List<TimeSlot> { secondTimeSlot, firstTimeSlot};
+            var result = scheduleDomain.GetSortedTimeSlots(mongoTimeSlots);
+
             Assert.AreEqual(expected, result);
         }
 
         [Test]
         public void TimeSlotsSortByHourAndMin()
         {
-            var firstTimeSlot = new MongoTimeSlot
+            var firstTimeSlot = new TimeSlot
             {
                 StandardTime = "9:30-10:00 A.M",
                 StartHour = 9,
@@ -52,7 +73,17 @@ namespace ConferenceOrganizer.Tests
                 EndHour = 10,
                 EndMin = 0
             };
-            var secondTimeSlot = new MongoTimeSlot
+
+            var mongoFirstTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "9:30-10:00 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 10,
+                EndMin = 0
+            };
+
+            var secondTimeSlot = new TimeSlot
             {
                 StandardTime = "9:00-10:00 A.M",
                 StartHour = 9,
@@ -61,9 +92,19 @@ namespace ConferenceOrganizer.Tests
                 EndMin = 0
             };
 
-            var timeSlots = new List<MongoTimeSlot> { firstTimeSlot, secondTimeSlot };
-            var result = scheduleDomain.GetSortedTimeSlots(timeSlots);
-            var expected = new List<MongoTimeSlot> { secondTimeSlot, firstTimeSlot };
+            var mongoSecondTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "9:00-10:00 A.M",
+                StartHour = 9,
+                StartMin = 0,
+                EndHour = 10,
+                EndMin = 0
+            };
+
+
+            var mongoTimeSlots = new List<MongoTimeSlot> { mongoFirstTimeSlot, mongoSecondTimeSlot};
+            var result = scheduleDomain.GetSortedTimeSlots(mongoTimeSlots);
+            var expected = new List<TimeSlot> { secondTimeSlot, firstTimeSlot };
             Assert.AreEqual(expected, result);
         }
 
@@ -173,6 +214,46 @@ namespace ConferenceOrganizer.Tests
             };
             scheduleDomain.UpdateSessionsAndProposals(schedule);
             mockProposalsCollection.Verify(p => p.FindProposal("3"));
+            mockSessionsCollection.Verify(x => x.DeleteSession("1"));
+        }
+
+        [Test]
+        public void DeleteBreak()
+        {
+            var schedule = new MongoSchedule
+            {
+                Rooms = new List<string> { "Room A" },
+                TimeSlots = new List<MongoTimeSlot>
+                {
+                    new MongoTimeSlot
+                    {
+                        StandardTime = "9:00-10:00 A.M"
+                    }
+                }
+            };
+
+            IEnumerable<MongoSession> sessions = new List<MongoSession>
+            {
+                new MongoSession
+                {
+                    id = "1",
+                    ProposalId = null,
+                    Room = null,
+                    StandardTime = "8:00-9:00 A.M",
+                    Break = true
+                },
+                new MongoSession
+                {
+                    id = "2",
+                    Room = "Room A",
+                    StandardTime = "9:00-10:00 A.M",
+                    Break = false
+                }
+            };
+
+            mockSessionsCollection.Setup(x => x.GetSessions()).Returns(() => sessions);
+
+            scheduleDomain.UpdateSessionsAndProposals(schedule);
             mockSessionsCollection.Verify(x => x.DeleteSession("1"));
         }
     }

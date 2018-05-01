@@ -8,17 +8,18 @@ namespace ConferenceOrganizer.Data
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
-        public List<MongoScheduleTime> scheduledTimes {get; set;}
-        public string speakerName { get; set; }
-        public string bio { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public string email { get; set; }
+        public List<MongoScheduleTime> ScheduledTimes {get; set;}
+        public string SpeakerName { get; set; }
+        public string Bio { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Email { get; set; }
     }
 
     public class MongoScheduleTime
     {
-        public string room { get; set; }
-        public string standardTime { get; set; }
+        public string SessionId { get; set; }
+        public string Room { get; set; }
+        public string StandardTime { get; set; }
     }
 }

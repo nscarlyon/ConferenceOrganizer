@@ -7,7 +7,7 @@ namespace ConferenceOrganizer.Data
     public interface ISessionsCollection
     {
         MongoSession GetSession(string id);
-        IEnumerable<MongoSession> GetSessions();
+        List<MongoSession> GetSessions();
         void PostSession(MongoSession session);
         void DeleteSession(string id);
         void PutSession(string id, MongoSession session);

@@ -21,7 +21,7 @@ namespace ConferenceOrganizer.Data
             return collection.Find(x => true).ToListAsync().Result;
         }
 
-        public MongoProposal FindProposal(string id)
+        public MongoProposal GetProposalById(string id)
         {
             return collection.Find(x => x.id == id).FirstOrDefault();
         }

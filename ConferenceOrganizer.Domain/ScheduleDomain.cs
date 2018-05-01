@@ -47,6 +47,7 @@ namespace ConferenceOrganizer.Domain
             var mongoSessions = sessionsCollection.GetSessions();
             var sessions = mongoSessions.Select(s => new Session
             {
+                id = s.id,
                 Bio = s.Bio,
                 Break = s.Break,
                 SpeakerName = s.SpeakerName,
@@ -107,12 +108,12 @@ namespace ConferenceOrganizer.Domain
 
         private void UpdateProposal(MongoSession session)
         {
-            var proposal = proposalsCollection.FindProposal(session.ProposalId);
+            var proposal = proposalsCollection.GetProposalById(session.ProposalId);
 
             if (IsNotBreak(proposal))
             {
-                var scheduledTimes = proposal.scheduledTimes.Where(x => x.standardTime != session.StandardTime);
-                proposal.scheduledTimes = scheduledTimes.ToList();
+                var scheduledTimes = proposal.ScheduledTimes.Where(x => x.StandardTime != session.StandardTime);
+                proposal.ScheduledTimes = scheduledTimes.ToList();
                 proposalsCollection.UpdateProposal(proposal);
             }
         }

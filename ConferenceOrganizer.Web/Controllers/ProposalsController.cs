@@ -42,9 +42,9 @@ namespace ConferenceOrganizer.Web.Controllers
         }
         
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public IEnumerable<MongoProposal> Delete(string id)
         {
-            proposalsDomain.DeleteProposalById(id);
+            return proposalsDomain.DeleteProposalById(id);
         }
 
         [HttpDelete]

@@ -6,10 +6,12 @@ namespace ConferenceOrganizer.Domain
     public class ProposalsDomain
     {
         private ProposalsCollection proposalsCollection;
+        private SessionsCollection sessionsCollection;
 
         public ProposalsDomain()
         {
-            proposalsCollection = new ProposalsCollection(); 
+            proposalsCollection = new ProposalsCollection();
+            sessionsCollection = new SessionsCollection();
         }
 
         public IEnumerable<MongoProposal> GetProposals()
@@ -19,7 +21,7 @@ namespace ConferenceOrganizer.Domain
 
         public MongoProposal GetProposalById(string id)
         {
-            return proposalsCollection.FindProposal(id);
+            return proposalsCollection.GetProposalById(id);
         }
 
         public void PostProposal(MongoProposal proposal)
@@ -32,9 +34,23 @@ namespace ConferenceOrganizer.Domain
             proposalsCollection.UpdateProposal(proposal);
         }
 
-        public void DeleteProposalById(string id)
+        public IEnumerable<MongoProposal> DeleteProposalById(string id)
         {
+            DeleteScheduledSessions(id);
             proposalsCollection.DeleteProposal(id);
+            return GetProposals();
+        }
+
+        private void DeleteScheduledSessions(string id)
+        {
+            var proposal = GetProposalById(id);
+            if (proposal.ScheduledTimes != null)
+            {
+                proposal.ScheduledTimes.ForEach(scheduledTime =>
+                {
+                    sessionsCollection.DeleteSession(scheduledTime.SessionId);
+                });
+            }
         }
 
         public void DeleteProposals()

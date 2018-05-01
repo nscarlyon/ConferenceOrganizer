@@ -123,7 +123,7 @@ namespace ConferenceOrganizer.Tests
                 }
             };
 
-            IEnumerable<MongoSession> sessions = new List<MongoSession>
+            var sessions = new List<MongoSession>
             {
                 new MongoSession
                 {
@@ -143,20 +143,20 @@ namespace ConferenceOrganizer.Tests
             };
 
             mockSessionsCollection.Setup(x => x.GetSessions()).Returns(() => sessions);
-            mockProposalsCollection.Setup(x => x.FindProposal(It.IsAny<string>())).Returns(() =>
+            mockProposalsCollection.Setup(x => x.GetProposalById(It.IsAny<string>())).Returns(() =>
             new MongoProposal()
             {
                 id = "3",
-                scheduledTimes = new List<MongoScheduleTime>
+                ScheduledTimes = new List<MongoScheduleTime>
                 {
                     new MongoScheduleTime
                     {
-                        room = "Room B"
+                        Room = "Room B"
                     }
                 }
             });
             scheduleDomain.UpdateSessionsAndProposals(schedule);
-            mockProposalsCollection.Verify(p => p.FindProposal("3"));
+            mockProposalsCollection.Verify(p => p.GetProposalById("3"));
             mockSessionsCollection.Verify(x => x.DeleteSession("2"));
         }
 
@@ -175,7 +175,7 @@ namespace ConferenceOrganizer.Tests
                 }
             };
 
-            IEnumerable<MongoSession> sessions = new List<MongoSession>
+            var sessions = new List<MongoSession>
             {
                 new MongoSession
                 {
@@ -195,15 +195,15 @@ namespace ConferenceOrganizer.Tests
             };
 
             mockSessionsCollection.Setup(x => x.GetSessions()).Returns(() => sessions);
-            mockProposalsCollection.Setup(x => x.FindProposal("3")).Returns(() =>
+            mockProposalsCollection.Setup(x => x.GetProposalById("3")).Returns(() =>
             new MongoProposal()
             {
                 id = "3",
-                scheduledTimes = new List<MongoScheduleTime>
+                ScheduledTimes = new List<MongoScheduleTime>
                 {
                     new MongoScheduleTime
                     {
-                        standardTime = "8:00-9:00 A.M"
+                        StandardTime = "8:00-9:00 A.M"
                     }
                 }
             });
@@ -213,7 +213,7 @@ namespace ConferenceOrganizer.Tests
                 id = "3"
             };
             scheduleDomain.UpdateSessionsAndProposals(schedule);
-            mockProposalsCollection.Verify(p => p.FindProposal("3"));
+            mockProposalsCollection.Verify(p => p.GetProposalById("3"));
             mockSessionsCollection.Verify(x => x.DeleteSession("1"));
         }
 
@@ -232,7 +232,7 @@ namespace ConferenceOrganizer.Tests
                 }
             };
 
-            IEnumerable<MongoSession> sessions = new List<MongoSession>
+            var sessions = new List<MongoSession>
             {
                 new MongoSession
                 {

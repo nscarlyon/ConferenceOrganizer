@@ -19,7 +19,7 @@ namespace ConferenceOrganizer.Data
             collection.DeleteMany(X => true);
         }
 
-        public IEnumerable<MongoSession> GetSessions()
+        public List<MongoSession> GetSessions()
         {
             return collection.Find(x => true).ToListAsync().Result;
         }

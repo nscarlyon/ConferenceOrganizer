@@ -36,16 +36,21 @@ namespace ConferenceOrganizer.Domain
             var sessions = sessionsCollection.GetSessions();
             var postedSession = sessions.Find(s => s.Room == session.Room && s.StandardTime == session.StandardTime);
             var proposal = proposalsCollection.GetProposalById(postedSession.ProposalId);
-
-            proposal.ScheduledTimes = new List<MongoScheduleTime>
+            var scheduledTime = new MongoScheduleTime
             {
-                new MongoScheduleTime
-                {
-                    SessionId = postedSession.id,
-                    Room = postedSession.Room,
-                    StandardTime = postedSession.StandardTime
-                }
+                SessionId = postedSession.id,
+                Room = postedSession.Room,
+                StandardTime = postedSession.StandardTime
             };
+
+            if (proposal.ScheduledTimes != null) proposal.ScheduledTimes.Add(scheduledTime);
+            else
+            {
+                proposal.ScheduledTimes = new List<MongoScheduleTime>
+                {
+                   scheduledTime
+                };
+            } 
             proposalsCollection.UpdateProposal(proposal);
         }
 

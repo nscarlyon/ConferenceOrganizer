@@ -10,7 +10,7 @@ namespace ConferenceOrganizer.Domain.DomainModels
         public bool Published { get; set; }
         public List<string> Rooms { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
-        public IEnumerable<Session> Sessions { get; set; }
+        public List<Session> Sessions { get; set; }
     }
 
     public class TimeSlot

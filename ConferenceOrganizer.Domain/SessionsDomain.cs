@@ -36,6 +36,7 @@ namespace ConferenceOrganizer.Domain
             var sessions = sessionsCollection.GetSessions();
             var postedSession = sessions.Find(s => s.Room == session.Room && s.StandardTime == session.StandardTime);
             var proposal = proposalsCollection.GetProposalById(postedSession.ProposalId);
+
             proposal.ScheduledTimes = new List<MongoScheduleTime>
             {
                 new MongoScheduleTime
@@ -62,9 +63,12 @@ namespace ConferenceOrganizer.Domain
         public void RemoveProposalScheduledTime(string id)
         {
             var session = sessionsCollection.GetSession(id);
-            var proposal = proposalsCollection.GetProposalById(session.ProposalId);
-            proposal.ScheduledTimes = proposal.ScheduledTimes.Where(s => s.SessionId != session.id).ToList();
-            proposalsCollection.UpdateProposal(proposal);
+            if (session.Break == false)
+            {
+                var proposal = proposalsCollection.GetProposalById(session.ProposalId);
+                proposal.ScheduledTimes = proposal.ScheduledTimes.Where(s => s.SessionId != session.id).ToList();
+                proposalsCollection.UpdateProposal(proposal);
+            }
         }
 
         public void DeleteSessions()

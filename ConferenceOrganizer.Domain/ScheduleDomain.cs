@@ -145,7 +145,29 @@ namespace ConferenceOrganizer.Domain
 
         public void DeleteSchedule()
         {
+            DeleteScheduleSessions();
             scheduleCollection.DeleteSchedule();
+            CreateNewSchedule();
+        }
+
+        private void DeleteScheduleSessions()
+        {
+            var schedule = GetSchedule();
+            schedule.Sessions.ForEach(s =>
+            {
+                sessionsCollection.DeleteSession(s.id);
+            });
+        }
+
+        private void CreateNewSchedule()
+        {
+            var newSchedule = new MongoSchedule
+            {
+                Published = false,
+                TimeSlots = new List<MongoTimeSlot>(),
+                Rooms = new List<string>()
+            };
+            scheduleCollection.PostSchedule(newSchedule);
         }
     }
 }

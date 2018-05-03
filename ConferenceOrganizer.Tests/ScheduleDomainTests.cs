@@ -13,8 +13,7 @@ namespace ConferenceOrganizer.Tests
     {
         public static Mock<IScheduleCollection> mockScheduleCollection = new Mock<IScheduleCollection>();
         public static Mock<ISessionsCollection> mockSessionsCollection = new Mock<ISessionsCollection>();
-        public static Mock<IProposalsCollection> mockProposalsCollection = new Mock<IProposalsCollection>();
-        public ScheduleDomain scheduleDomain = new ScheduleDomain(mockScheduleCollection.Object, mockSessionsCollection.Object, mockProposalsCollection.Object);
+        public ScheduleDomain scheduleDomain = new ScheduleDomain(mockScheduleCollection.Object, mockSessionsCollection.Object);
 
         [Test]
         public void TimeSlotsSortByHour()
@@ -143,20 +142,7 @@ namespace ConferenceOrganizer.Tests
             };
 
             mockSessionsCollection.Setup(x => x.GetSessions()).Returns(() => sessions);
-            mockProposalsCollection.Setup(x => x.GetProposalById(It.IsAny<string>())).Returns(() =>
-            new MongoProposal()
-            {
-                id = "3",
-                ScheduledTimes = new List<MongoScheduleTime>
-                {
-                    new MongoScheduleTime
-                    {
-                        Room = "Room B"
-                    }
-                }
-            });
-            scheduleDomain.UpdateSessionsAndProposals(schedule);
-            mockProposalsCollection.Verify(p => p.GetProposalById("3"));
+            scheduleDomain.UpdateSessions(schedule);
             mockSessionsCollection.Verify(x => x.DeleteSession("2"));
         }
 
@@ -195,25 +181,12 @@ namespace ConferenceOrganizer.Tests
             };
 
             mockSessionsCollection.Setup(x => x.GetSessions()).Returns(() => sessions);
-            mockProposalsCollection.Setup(x => x.GetProposalById("3")).Returns(() =>
-            new MongoProposal()
-            {
-                id = "3",
-                ScheduledTimes = new List<MongoScheduleTime>
-                {
-                    new MongoScheduleTime
-                    {
-                        StandardTime = "8:00-9:00 A.M"
-                    }
-                }
-            });
-
+            
             var updatedProposal = new MongoProposal
             {
                 id = "3"
             };
-            scheduleDomain.UpdateSessionsAndProposals(schedule);
-            mockProposalsCollection.Verify(p => p.GetProposalById("3"));
+            scheduleDomain.UpdateSessions(schedule);
             mockSessionsCollection.Verify(x => x.DeleteSession("1"));
         }
 
@@ -253,7 +226,7 @@ namespace ConferenceOrganizer.Tests
 
             mockSessionsCollection.Setup(x => x.GetSessions()).Returns(() => sessions);
 
-            scheduleDomain.UpdateSessionsAndProposals(schedule);
+            scheduleDomain.UpdateSessions(schedule);
             mockSessionsCollection.Verify(x => x.DeleteSession("1"));
         }
     }

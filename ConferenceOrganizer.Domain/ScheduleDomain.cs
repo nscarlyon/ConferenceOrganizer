@@ -9,13 +9,11 @@ namespace ConferenceOrganizer.Domain
     {
         public IScheduleCollection scheduleCollection;
         public ISessionsCollection sessionsCollection;
-        public IProposalsCollection proposalsCollection;
 
-        public ScheduleDomain(IScheduleCollection scheduleCollection, ISessionsCollection sessionsCollection, IProposalsCollection proposalsCollection)
+        public ScheduleDomain(IScheduleCollection scheduleCollection, ISessionsCollection sessionsCollection)
         {
             this.scheduleCollection = scheduleCollection;
             this.sessionsCollection = sessionsCollection;
-            this.proposalsCollection = proposalsCollection;
         }
 
         public Schedule GetSchedule()
@@ -88,11 +86,11 @@ namespace ConferenceOrganizer.Domain
         public Schedule UpdateSchedule(string id, MongoSchedule schedule)
         {
             scheduleCollection.PutSchedule(id, schedule);
-            UpdateSessionsAndProposals(schedule);
+            UpdateSessions(schedule);
             return GetSchedule();
         }
 
-        public void UpdateSessionsAndProposals(MongoSchedule schedule)
+        public void UpdateSessions(MongoSchedule schedule)
         {
             var sessions = sessionsCollection.GetSessions();
 
@@ -100,21 +98,8 @@ namespace ConferenceOrganizer.Domain
             {
                 if (RoomIsDeleted(schedule, session) || TimeSlotDeleted(schedule, session))
                 {
-                    UpdateProposal(session);
                     sessionsCollection.DeleteSession(session.id);
                 }
-            }
-        }
-
-        private void UpdateProposal(MongoSession session)
-        {
-            var proposal = proposalsCollection.GetProposalById(session.ProposalId);
-
-            if (IsNotBreak(proposal))
-            {
-                var scheduledTimes = proposal.ScheduledTimes.Where(x => x.StandardTime != session.StandardTime);
-                proposal.ScheduledTimes = scheduledTimes.ToList();
-                proposalsCollection.UpdateProposal(proposal);
             }
         }
 

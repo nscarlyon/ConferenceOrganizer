@@ -35,7 +35,6 @@ namespace ConferenceOrganizer.Data
 
         public void PutSchedule(string id, MongoSchedule newSchedule)
         {
-            MongoSchedule schedule = collection.Find(x => true).ToListAsync().Result.First();
             var filter = Builders<MongoSchedule>.Filter.Eq("id", id);
             var update = Builders<MongoSchedule>.Update
                                             .Set("Rooms", newSchedule.Rooms)

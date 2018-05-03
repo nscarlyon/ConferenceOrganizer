@@ -1,5 +1,6 @@
 ﻿using ConferenceOrganizer.Data;
 using ConferenceOrganizer.Domain.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -74,7 +75,8 @@ namespace ConferenceOrganizer.Domain
 
             var sortedTimeSlots = timeSlots.OrderBy(t => t.StartHour)
                                            .ThenBy(t => t.StartMin)
-                                           .ToList();
+                                           .ThenBy(t => t.EndHour)
+                                           .ThenBy(t => t.EndMin).ToList();
             return sortedTimeSlots;
         }
 
@@ -130,29 +132,36 @@ namespace ConferenceOrganizer.Domain
 
         public void DeleteSchedule()
         {
-            DeleteScheduleSessions();
-            scheduleCollection.DeleteSchedule();
-            CreateNewSchedule();
+            var schedule = GetSchedule();
+            DeleteScheduleSessions(schedule);
+            ClearSchedule(schedule);
         }
 
-        private void DeleteScheduleSessions()
+        public void DeleteScheduleSessions(Schedule schedule)
         {
-            var schedule = GetSchedule();
             schedule.Sessions.ForEach(s =>
             {
                 sessionsCollection.DeleteSession(s.id);
             });
         }
 
-        private void CreateNewSchedule()
+        public void ClearSchedule(Schedule schedule)
         {
+            var timeSlots = schedule.TimeSlots.Select(t => new MongoTimeSlot
+            {
+                StandardTime = t.StandardTime,
+                StartHour = t.StartHour,
+                StartMin = t.StartMin,
+                EndHour = t.EndHour,
+                EndMin = t.EndMin
+            }).ToList();
+
             var newSchedule = new MongoSchedule
             {
-                Published = false,
-                TimeSlots = new List<MongoTimeSlot>(),
-                Rooms = new List<string>()
+                TimeSlots = timeSlots,
+                Rooms = schedule.Rooms
             };
-            scheduleCollection.PostSchedule(newSchedule);
+            scheduleCollection.PutSchedule(schedule.id, newSchedule);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ConferenceOrganizer.Tests
         public ScheduleDomain scheduleDomain = new ScheduleDomain(mockScheduleCollection.Object, mockSessionsCollection.Object);
 
         [Test]
-        public void TimeSlotsSortByHour()
+        public void TimeSlotsSortByStartHour()
         {
             var firstTimeSlot = new TimeSlot
             {
@@ -62,7 +62,7 @@ namespace ConferenceOrganizer.Tests
         }
 
         [Test]
-        public void TimeSlotsSortByHourAndMin()
+        public void TimeSlotsSortByStartHourAndMin()
         {
             var firstTimeSlot = new TimeSlot
             {
@@ -104,6 +104,97 @@ namespace ConferenceOrganizer.Tests
             var mongoTimeSlots = new List<MongoTimeSlot> { mongoFirstTimeSlot, mongoSecondTimeSlot};
             var result = scheduleDomain.GetSortedTimeSlots(mongoTimeSlots);
             var expected = new List<TimeSlot> { secondTimeSlot, firstTimeSlot };
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void TimeSlotsSortByEndHour()
+        {
+            var firstTimeSlot = new TimeSlot
+            {
+                StandardTime = "9:30-10:00 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 10,
+                EndMin = 0
+            };
+
+            var mongoFirstTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "9:30-10:00 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 10,
+                EndMin = 0
+            };
+
+            var secondTimeSlot = new TimeSlot
+            {
+                StandardTime = "9:30-11:00 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 11,
+                EndMin = 0
+            };
+
+            var mongoSecondTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "9:30-11:00 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 11,
+                EndMin = 0
+            };
+
+            var mongoTimeSlots = new List<MongoTimeSlot> { mongoSecondTimeSlot, mongoFirstTimeSlot };
+            var result = scheduleDomain.GetSortedTimeSlots(mongoTimeSlots);
+            var expected = new List<TimeSlot> { firstTimeSlot, secondTimeSlot};
+            Assert.AreEqual(expected, result);
+        }
+
+
+        [Test]
+        public void TimeSlotsSortByEndHourAndMin()
+        {
+            var firstTimeSlot = new TimeSlot
+            {
+                StandardTime = "9:30-10:00 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 10,
+                EndMin = 0
+            };
+
+            var mongoFirstTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "9:30-10:00 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 10,
+                EndMin = 0
+            };
+
+            var secondTimeSlot = new TimeSlot
+            {
+                StandardTime = "9:30-10:30 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 10,
+                EndMin = 30
+            };
+
+            var mongoSecondTimeSlot = new MongoTimeSlot
+            {
+                StandardTime = "9:30-10:30 A.M",
+                StartHour = 9,
+                StartMin = 30,
+                EndHour = 10,
+                EndMin = 30
+            };
+
+            var mongoTimeSlots = new List<MongoTimeSlot> { mongoSecondTimeSlot, mongoFirstTimeSlot };
+            var result = scheduleDomain.GetSortedTimeSlots(mongoTimeSlots);
+            var expected = new List<TimeSlot> { firstTimeSlot, secondTimeSlot };
             Assert.AreEqual(expected, result);
         }
 

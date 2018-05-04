@@ -1,5 +1,6 @@
 ﻿using ConferenceOrganizer.Data;
 using ConferenceOrganizer.Domain.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,30 +8,45 @@ namespace ConferenceOrganizer.Domain
 {
     public class ProposalsDomain
     {
-        private ProposalsCollection proposalsCollection;
+        public IProposalsCollection proposalsCollection;
+        public ISessionsCollection sessionsCollection;
 
-        public ProposalsDomain()
+        public ProposalsDomain(IProposalsCollection proposalsCollection, ISessionsCollection sessionsCollection)
         {
-            proposalsCollection = new ProposalsCollection();
+            this.proposalsCollection = proposalsCollection;
+            this.sessionsCollection = sessionsCollection;
         }
 
         public IEnumerable<Proposal> GetProposals()
         {
-            var proposals = proposalsCollection.GetProposals();
+            var mongoProposals = proposalsCollection.GetProposals();
 
-            return proposals.Select(proposal =>
+            var proposals =  mongoProposals.Select(proposal =>
             {
                 return new Proposal
                 {
-                    id = proposal.id,
+                    Id = proposal.id,
                     SpeakerName = proposal.SpeakerName,
                     Bio = proposal.Bio,
                     Title = proposal.Title,
                     Description = proposal.Description,
-                    Email = proposal.Email
+                    Email = proposal.Email,
+                    ScheduledSessions = GetScheduledSessions(proposal)
                 };
             });
-            
+
+            return proposals;
+        }
+
+        public IEnumerable<ScheduledSession> GetScheduledSessions(MongoProposal proposal)
+        {
+            var filteredSessions = sessionsCollection.GetSessions().Where(s => s.ProposalId == proposal.id);
+            return filteredSessions.Select(s => new ScheduledSession
+            {
+                SessionId = s.id,
+                StandardTime = s.StandardTime,
+                Room = s.Room
+            });
         }
 
         public Proposal GetProposalById(string id)
@@ -38,7 +54,7 @@ namespace ConferenceOrganizer.Domain
             var proposal = proposalsCollection.GetProposalById(id);
             return new Proposal
             {
-                id = proposal.id,
+                Id = proposal.id,
                 SpeakerName = proposal.SpeakerName,
                 Bio = proposal.Bio,
                 Title = proposal.Title,
@@ -65,7 +81,7 @@ namespace ConferenceOrganizer.Domain
         {
             var mongoProposal = new MongoProposal
             {
-                id = proposal.id,
+                id = proposal.Id,
                 SpeakerName = proposal.SpeakerName,
                 Bio = proposal.Bio,
                 Title = proposal.Title,

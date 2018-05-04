@@ -22,44 +22,19 @@ namespace ConferenceOrganizer.Domain
 
             if(mongoSchedule != null)
             {
-                var sessions = GetSessions();
-                var sortedTimeSlots = GetSortedTimeSlots(mongoSchedule.TimeSlots);
-
                 var schedule = new Schedule()
                 {
                     id = mongoSchedule.id,
                     Published = mongoSchedule.Published,
                     Rooms = mongoSchedule.Rooms,
-                    TimeSlots = sortedTimeSlots,
-                    Sessions = sessions
+                    TimeSlots = GetSortedTimeSlots(mongoSchedule.TimeSlots),
+                    Sessions = GetSessions()
                 };
 
                 return schedule;
-
             }
             return null;
         }
-
-        private List<Session> GetSessions()
-        {
-            var mongoSessions = sessionsCollection.GetSessions();
-            var sessions = mongoSessions.Select(s => new Session
-            {
-                id = s.id,
-                Bio = s.Bio,
-                Break = s.Break,
-                SpeakerName = s.SpeakerName,
-                Email = s.Email,
-                ProposalId = s.ProposalId,
-                Title = s.Title,
-                Description = s.Description,
-                Room = s.Room,
-                StandardTime = s.StandardTime
-            }).ToList();
-
-            return sessions;
-        }
-
 
         public List<TimeSlot> GetSortedTimeSlots(List<MongoTimeSlot> mongoTimeSlots)
         {
@@ -79,6 +54,26 @@ namespace ConferenceOrganizer.Domain
             return sortedTimeSlots;
         }
 
+        public List<Session> GetSessions()
+        {
+            var mongoSessions = sessionsCollection.GetSessions();
+            var sessions = mongoSessions.Select(s => new Session
+            {
+                id = s.id,
+                Bio = s.Bio,
+                Break = s.Break,
+                SpeakerName = s.SpeakerName,
+                Email = s.Email,
+                ProposalId = s.ProposalId,
+                Title = s.Title,
+                Description = s.Description,
+                Room = s.Room,
+                StandardTime = s.StandardTime
+            }).ToList();
+
+            return sessions;
+        }
+
         public void PostSchedule(Schedule schedule)
         {
             var mongoSchedule = GetMongoSchedule(schedule);
@@ -91,13 +86,13 @@ namespace ConferenceOrganizer.Domain
             {
                 Published = schedule.Published,
                 Rooms = schedule.Rooms,
-                TimeSlots = GetMongoTimeSlots(schedule.TimeSlots)
+                TimeSlots = GetSortedMongoTimeSlots(schedule.TimeSlots)
             };
         }
 
-        public List<MongoTimeSlot> GetMongoTimeSlots(List<TimeSlot> timeSlots)
+        public List<MongoTimeSlot> GetSortedMongoTimeSlots(List<TimeSlot> timeSlots)
         {
-            return timeSlots.Select(timeSlot => new MongoTimeSlot
+            var mongoTimeSlots = timeSlots.Select(timeSlot => new MongoTimeSlot
             {
                 StandardTime = timeSlot.StandardTime,
                 StartHour = timeSlot.StartHour,
@@ -105,6 +100,12 @@ namespace ConferenceOrganizer.Domain
                 EndHour = timeSlot.EndHour,
                 EndMin = timeSlot.EndMin
             }).ToList();
+
+            var sortedTimeSlots = mongoTimeSlots.OrderBy(t => t.StartHour)
+                                          .ThenBy(t => t.StartMin)
+                                          .ThenBy(t => t.EndHour)
+                                          .ThenBy(t => t.EndMin).ToList();
+            return sortedTimeSlots;
         }
 
         public Schedule UpdateSchedule(string id, Schedule schedule)

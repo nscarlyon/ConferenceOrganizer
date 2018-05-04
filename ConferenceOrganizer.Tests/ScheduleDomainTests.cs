@@ -99,7 +99,6 @@ namespace ConferenceOrganizer.Tests
                 EndMin = 0
             };
 
-
             var mongoTimeSlots = new List<MongoTimeSlot> { mongoFirstTimeSlot, mongoSecondTimeSlot};
             var result = scheduleDomain.GetSortedTimeSlots(mongoTimeSlots);
             var expected = new List<TimeSlot> { secondTimeSlot, firstTimeSlot };
@@ -315,7 +314,6 @@ namespace ConferenceOrganizer.Tests
             };
 
             mockSessionsCollection.Setup(x => x.GetSessions()).Returns(() => sessions);
-
             scheduleDomain.UpdateSessions(schedule);
             mockSessionsCollection.Verify(x => x.DeleteSession("1"));
         }

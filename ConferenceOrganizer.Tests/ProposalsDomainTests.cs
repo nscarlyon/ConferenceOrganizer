@@ -3,7 +3,6 @@ using ConferenceOrganizer.Domain;
 using ConferenceOrganizer.Domain.DomainModels;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

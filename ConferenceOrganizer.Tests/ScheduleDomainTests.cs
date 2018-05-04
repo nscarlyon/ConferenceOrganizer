@@ -3,7 +3,6 @@ using ConferenceOrganizer.Domain;
 using ConferenceOrganizer.Domain.DomainModels;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace ConferenceOrganizer.Tests
@@ -201,12 +200,12 @@ namespace ConferenceOrganizer.Tests
         [Test]
         public void DeleteSessionsForDeletedRoom()
         {
-            var schedule = new MongoSchedule
+            var schedule = new Schedule
             {
                 Rooms = new List<string> { "Room A" },
-                TimeSlots = new List<MongoTimeSlot>
+                TimeSlots = new List<TimeSlot>
                 {
-                    new MongoTimeSlot
+                    new TimeSlot
                     {
                         StandardTime = "9:00-10:00 A.M"
                     }
@@ -240,12 +239,12 @@ namespace ConferenceOrganizer.Tests
         [Test]
         public void DeleteSessionsForDeletedTimeSlot()
         {
-            var schedule = new MongoSchedule
+            var schedule = new Schedule
             {
                 Rooms = new List<string> { "Room A" },
-                TimeSlots = new List<MongoTimeSlot>
+                TimeSlots = new List<TimeSlot>
                 {
-                    new MongoTimeSlot
+                    new TimeSlot
                     {
                         StandardTime = "9:00-10:00 A.M"
                     }
@@ -284,12 +283,12 @@ namespace ConferenceOrganizer.Tests
         [Test]
         public void DeleteBreak()
         {
-            var schedule = new MongoSchedule
+            var schedule = new Schedule
             {
                 Rooms = new List<string> { "Room A" },
-                TimeSlots = new List<MongoTimeSlot>
+                TimeSlots = new List<TimeSlot>
                 {
-                    new MongoTimeSlot
+                    new TimeSlot
                     {
                         StandardTime = "9:00-10:00 A.M"
                     }

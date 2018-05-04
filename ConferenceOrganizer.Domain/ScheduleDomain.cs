@@ -1,6 +1,5 @@
 ﻿using ConferenceOrganizer.Data;
 using ConferenceOrganizer.Domain.DomainModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -80,19 +79,43 @@ namespace ConferenceOrganizer.Domain
             return sortedTimeSlots;
         }
 
-        public void PostSchedule(MongoSchedule schedule)
+        public void PostSchedule(Schedule schedule)
         {
-            scheduleCollection.PostSchedule(schedule);
+            var mongoSchedule = GetMongoSchedule(schedule);
+            scheduleCollection.PostSchedule(mongoSchedule);
         }
 
-        public Schedule UpdateSchedule(string id, MongoSchedule schedule)
+        public MongoSchedule GetMongoSchedule(Schedule schedule)
         {
-            scheduleCollection.PutSchedule(id, schedule);
+            return  new MongoSchedule
+            {
+                Published = schedule.Published,
+                Rooms = schedule.Rooms,
+                TimeSlots = GetMongoTimeSlots(schedule.TimeSlots)
+            };
+        }
+
+        public List<MongoTimeSlot> GetMongoTimeSlots(List<TimeSlot> timeSlots)
+        {
+            return timeSlots.Select(timeSlot => new MongoTimeSlot
+            {
+                StandardTime = timeSlot.StandardTime,
+                StartHour = timeSlot.StartHour,
+                StartMin = timeSlot.StartMin,
+                EndHour = timeSlot.EndHour,
+                EndMin = timeSlot.EndMin
+            }).ToList();
+        }
+
+        public Schedule UpdateSchedule(string id, Schedule schedule)
+        {
+            var mongoSchedule = GetMongoSchedule(schedule);
+            scheduleCollection.PutSchedule(id, mongoSchedule);
             UpdateSessions(schedule);
             return GetSchedule();
         }
 
-        public void UpdateSessions(MongoSchedule schedule)
+        public void UpdateSessions(Schedule schedule)
         {
             var sessions = sessionsCollection.GetSessions();
 
@@ -105,17 +128,12 @@ namespace ConferenceOrganizer.Domain
             }
         }
 
-        private static bool IsNotBreak(MongoProposal proposal)
-        {
-            return proposal != null;
-        }
-
-        private static bool TimeSlotDeleted(MongoSchedule schedule, MongoSession session)
+        private static bool TimeSlotDeleted(Schedule schedule, MongoSession session)
         {
             return !schedule.TimeSlots.Exists(x => x.StandardTime == session.StandardTime);
         }
 
-        private static bool RoomIsDeleted(MongoSchedule schedule, MongoSession session)
+        private static bool RoomIsDeleted(Schedule schedule, MongoSession session)
         {
             return !schedule.Rooms.Exists(x => x == session.Room) && session.Break == false;
         }
@@ -147,20 +165,7 @@ namespace ConferenceOrganizer.Domain
 
         public void ClearSchedule(Schedule schedule)
         {
-            var timeSlots = schedule.TimeSlots.Select(t => new MongoTimeSlot
-            {
-                StandardTime = t.StandardTime,
-                StartHour = t.StartHour,
-                StartMin = t.StartMin,
-                EndHour = t.EndHour,
-                EndMin = t.EndMin
-            }).ToList();
-
-            var newSchedule = new MongoSchedule
-            {
-                TimeSlots = timeSlots,
-                Rooms = schedule.Rooms
-            };
+            var newSchedule = GetMongoSchedule(schedule);
             scheduleCollection.PutSchedule(schedule.id, newSchedule);
         }
     }

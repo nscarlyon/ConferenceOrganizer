@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using ConferenceOrganizer.Data;
 using ConferenceOrganizer.Domain;
+using ConferenceOrganizer.Domain.DomainModels;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
@@ -17,26 +17,25 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<MongoSession> Get()
+        public IEnumerable<Session> Get()
         {
             return sessionsDomain.GetSessions();
         }
 
         [HttpGet("{id}")]
-        public MongoSession Get(string id)
+        public Session Get(string id)
         {
             return sessionsDomain.GetSessionById(id);
         }
 
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]MongoSession session)
+        public void Post([FromBody]Session session)
         {
             sessionsDomain.PostSession(session);
-            return new HttpResponseMessage("Session successfully added");
         }
 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]MongoSession session)
+        public void Put(string id, [FromBody]Session session)
         {
             sessionsDomain.PutSession(id, session);
         }

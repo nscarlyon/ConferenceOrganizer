@@ -1,5 +1,7 @@
 ﻿using ConferenceOrganizer.Data;
+using ConferenceOrganizer.Domain.DomainModels;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConferenceOrganizer.Domain
 {
@@ -12,27 +14,69 @@ namespace ConferenceOrganizer.Domain
             proposalsCollection = new ProposalsCollection();
         }
 
-        public IEnumerable<MongoProposal> GetProposals()
+        public IEnumerable<Proposal> GetProposals()
         {
-            return proposalsCollection.GetProposals();
+            var proposals = proposalsCollection.GetProposals();
+
+            return proposals.Select(proposal =>
+            {
+                return new Proposal
+                {
+                    id = proposal.id,
+                    SpeakerName = proposal.SpeakerName,
+                    Bio = proposal.Bio,
+                    Title = proposal.Title,
+                    Description = proposal.Description,
+                    Email = proposal.Email
+                };
+            });
+            
         }
 
-        public MongoProposal GetProposalById(string id)
+        public Proposal GetProposalById(string id)
         {
-            return proposalsCollection.GetProposalById(id);
+            var proposal = proposalsCollection.GetProposalById(id);
+            return new Proposal
+            {
+                id = proposal.id,
+                SpeakerName = proposal.SpeakerName,
+                Bio = proposal.Bio,
+                Title = proposal.Title,
+                Description = proposal.Description,
+                Email = proposal.Email
+            };
         }
 
-        public void PostProposal(MongoProposal proposal)
+        public void PostProposal(Proposal proposal)
         {
-            proposalsCollection.PostProposal(proposal);
+            var mongoProposal = new MongoProposal
+            {
+                SpeakerName = proposal.SpeakerName,
+                Bio = proposal.Bio,
+                Title = proposal.Title,
+                Description = proposal.Description,
+                Email = proposal.Email
+            };
+
+            proposalsCollection.PostProposal(mongoProposal);
         }
 
-        public void UpdateProposal(MongoProposal proposal)
+        public void UpdateProposal(Proposal proposal)
         {
-            proposalsCollection.UpdateProposal(proposal);
+            var mongoProposal = new MongoProposal
+            {
+                id = proposal.id,
+                SpeakerName = proposal.SpeakerName,
+                Bio = proposal.Bio,
+                Title = proposal.Title,
+                Description = proposal.Description,
+                Email = proposal.Email
+            };
+
+            proposalsCollection.UpdateProposal(mongoProposal);
         }
 
-        public IEnumerable<MongoProposal> DeleteProposalById(string id)
+        public IEnumerable<Proposal> DeleteProposalById(string id)
         {
             proposalsCollection.DeleteProposal(id);
             return GetProposals();

@@ -1,4 +1,5 @@
 ﻿using ConferenceOrganizer.Data;
+using ConferenceOrganizer.Domain.DomainModels;
 
 namespace ConferenceOrganizer.Domain
 {
@@ -11,14 +12,25 @@ namespace ConferenceOrganizer.Domain
             cfpCollection = new CFPCollection();
         }
 
-        public MongoCFP GetCfp()
+        public CFP GetCfp()
         {
-            return cfpCollection.GetCFPStatus();
+            var cfp = cfpCollection.GetCFPStatus();
+
+            return new CFP {
+                id =cfp.id,
+                status = cfp.status
+            };
         }
 
-        public void PutCfp(string id, MongoCFP cfp)
+        public void PutCfp(string id, CFP cfp)
         {
-            cfpCollection.PutCFP(id, cfp);
+            var mongoCFP = new MongoCFP
+            {
+                id = cfp.id,
+                status = cfp.status
+            };
+
+            cfpCollection.PutCFP(id, mongoCFP);
         } 
     }
 }

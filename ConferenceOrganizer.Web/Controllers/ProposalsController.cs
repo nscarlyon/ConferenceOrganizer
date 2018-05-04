@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using ConferenceOrganizer.Data;
 using ConferenceOrganizer.Domain;
+using ConferenceOrganizer.Domain.DomainModels;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
@@ -17,32 +17,31 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<MongoProposal> Get()
+        public IEnumerable<Proposal> Get()
         {
             return proposalsDomain.GetProposals();
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public MongoProposal Get(string id)
+        public Proposal Get(string id)
         {
             return proposalsDomain.GetProposalById(id);
         }
 
         [HttpPut]
-        public void Put([FromBody] MongoProposal proposal)
+        public void Put([FromBody] Proposal proposal)
         {
             proposalsDomain.UpdateProposal(proposal);
         }
         
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]MongoProposal proposal)
+        public void Post([FromBody]Proposal proposal)
         {
             proposalsDomain.PostProposal(proposal);
-            return new HttpResponseMessage("Proposal successfully submitted");
         }
         
         [HttpDelete("{id}")]
-        public IEnumerable<MongoProposal> Delete(string id)
+        public IEnumerable<Proposal> Delete(string id)
         {
             return proposalsDomain.DeleteProposalById(id);
         }

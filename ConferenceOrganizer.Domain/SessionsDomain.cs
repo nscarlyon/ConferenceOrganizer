@@ -1,4 +1,5 @@
 ﻿using ConferenceOrganizer.Data;
+using ConferenceOrganizer.Domain.DomainModels;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,24 +14,77 @@ namespace ConferenceOrganizer.Domain
             sessionsCollection = new SessionsCollection();
         }
 
-        public IEnumerable<MongoSession> GetSessions()
+        public IEnumerable<Session> GetSessions()
         {
-            return sessionsCollection.GetSessions();
+            var sessions = sessionsCollection.GetSessions();
+
+            return sessions.Select(session => new Session
+            {
+                id = session.id,
+                SpeakerName = session.SpeakerName,
+                Bio = session.Bio,
+                Email = session.Email,
+                ProposalId = session.ProposalId,
+                Title = session.Title,
+                Description = session.Description,
+                Room = session.Room,
+                StandardTime = session.StandardTime,
+                Break = session.Break
+            });
         }
 
-        public MongoSession GetSessionById(string id)
+        public Session GetSessionById(string id)
         {
-            return sessionsCollection.GetSession(id);
+            var session = sessionsCollection.GetSession(id);
+            return new Session
+            {
+                id = session.id,
+                SpeakerName = session.SpeakerName,
+                Bio = session.Bio,
+                Email = session.Email,
+                ProposalId = session.ProposalId,
+                Title = session.Title,
+                Description = session.Description,
+                Room = session.Room,
+                StandardTime = session.StandardTime,
+                Break = session.Break
+            };
         }
 
-        public void PostSession(MongoSession session)
+        public void PostSession(Session session)
         {
-            sessionsCollection.PostSession(session);
+            var mongoSession = new MongoSession
+            {
+                SpeakerName = session.SpeakerName,
+                Bio = session.Bio,
+                Email = session.Email,
+                ProposalId = session.ProposalId,
+                Title = session.Title,
+                Description = session.Description,
+                Room = session.Room,
+                StandardTime = session.StandardTime,
+                Break = session.Break
+            };
+
+            sessionsCollection.PostSession(mongoSession);
         }
 
-        public void PutSession(string id, MongoSession session)
+        public void PutSession(string id, Session session)
         {
-            sessionsCollection.PutSession(id, session);
+            var mongoSession = new MongoSession
+            {
+                SpeakerName = session.SpeakerName,
+                Bio = session.Bio,
+                Email = session.Email,
+                ProposalId = session.ProposalId,
+                Title = session.Title,
+                Description = session.Description,
+                Room = session.Room,
+                StandardTime = session.StandardTime,
+                Break = session.Break
+            };
+
+            sessionsCollection.PutSession(id, mongoSession);
         }
 
         public void DeleteSessionById(string id)

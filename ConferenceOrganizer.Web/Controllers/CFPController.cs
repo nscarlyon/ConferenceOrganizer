@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using ConferenceOrganizer.Data;
-using Microsoft.AspNetCore.Cors;
 using ConferenceOrganizer.Domain;
+using ConferenceOrganizer.Domain.DomainModels;
 
 namespace ConferenceOrganizer.Web.Controllers
 {
     [Route("cfp")]
-    [EnableCors("AllowSpecificOrigin")]
     public class CFPController : Controller
     {
         CFPDomain cfpDomain;
@@ -17,14 +15,13 @@ namespace ConferenceOrganizer.Web.Controllers
         }
 
         [HttpGet]
-        public MongoCFP Get()
+        public CFP Get()
         {
-            Request.Headers.Add("Access-Control-Allow-Origin", "*");
             return cfpDomain.GetCfp();
         }    
         
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]MongoCFP value)
+        public void Put(string id, [FromBody]CFP value)
         {
             cfpDomain.PutCfp(id, value);
         }
